@@ -38,7 +38,7 @@ class EventsController < ApplicationController
     @event.host = params[:host]
     @event.title = params[:title]
     @event.description = params[:description]
-    @event.event_date = params[:event_date]
+    @event.event_date = Chronic.parse(params[:event_date])
     @event.start_time = params[:start_time]
     @event.end_tme = params[:end_tme]
     @event.available = params[:available]

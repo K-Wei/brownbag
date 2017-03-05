@@ -105,6 +105,7 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    chronic (0.10.2)
     cloudinary (1.5.2)
       aws_cf_signer
       json (~> 1.8)
@@ -280,6 +281,7 @@ DEPENDENCIES
   bootstrap4-kaminari-views
   byebug
   carrierwave
+  chronic
   cloudinary
   coffee-rails (~> 4.2)
   devise
