@@ -23,7 +23,7 @@
       <% @invitations.each do |invitation| %>
       <tr>
         <td><%= invitation.user.email %></td>
-        <td><%= invitation.event_id %></td>
+        <td><%= invitation.event.user_id %></td>
         <td><%= invitation.confirmed_reservation %></td>
         <td><%= invitation.host_approval %></td>
         <td><%= invitation.guest_approval %></td>
