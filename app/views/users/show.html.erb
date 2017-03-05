@@ -5,23 +5,14 @@
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
-      <dt>Email</dt>
-      <dd><%= @user.email %></dd>
-
-      <dt>Password</dt>
-      <dd><%= @user.password %></dd>
+      <dt>Profile picture</dt>
+      <dd><img src="<%= @user.profile_picture %>" class="img-responsive"></dd>
 
       <dt>First name</dt>
       <dd><%= @user.first_name %></dd>
 
       <dt>Last name</dt>
       <dd><%= @user.last_name %></dd>
-
-      <dt>Linkedin url</dt>
-      <dd><%= @user.linkedin_url %></dd>
-
-      <dt>Profile picture</dt>
-      <dd><img src="<%= @user.profile_picture %>" class="img-responsive"></dd>
 
       <dt>Title</dt>
       <dd><%= @user.title %></dd>
@@ -34,6 +25,12 @@
 
       <dt>Interests</dt>
       <dd><%= @user.interests %></dd>
+
+      <dt>
+      <a href="<%= @user.linkedin_url %>">
+        <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_liprofile_blue_80x15.png" class="img-responsive">
+      </a>
+      </dt>
 
     </dl>
 
@@ -51,109 +48,10 @@
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
-        Events
+        Hosted Events
       </li>
 
       <% @user.events.each do |event| %>
-        <li class="list-group-item">
-          <a href="/events/<%= event.id %>">
-            <%= event.user_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/events/<%= event.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <%if current_user == event.user %>
-              <a href="/events/<%= event.id %>/edit" class="btn btn-warning">
-                <i class="fa fa-edit"></i>
-              </a>
-              <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">
-                <i class="fa fa-trash-o"></i>
-              </a>
-            <% end %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
-
-<!-- A User has many comments -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Comments
-      </li>
-
-      <% @user.comments.each do |comment| %>
-        <li class="list-group-item">
-          <a href="/comments/<%= comment.id %>">
-            <%= comment.user_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/comments/<%= comment.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <%if current_user == comment.user %>
-              <a href="/comments/<%= comment.id %>/edit" class="btn btn-warning">
-                <i class="fa fa-edit"></i>
-              </a>
-              <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
-                <i class="fa fa-trash-o"></i>
-              </a>
-            <% end %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
-
-<!-- A User has many invitations -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Invitations
-      </li>
-
-      <% @user.invitations.each do |invitation| %>
-        <li class="list-group-item">
-          <a href="/invitations/<%= invitation.id %>">
-            <%= invitation.user_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/invitations/<%= invitation.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <%if current_user == invitation.user %>
-              <a href="/invitations/<%= invitation.id %>/edit" class="btn btn-warning">
-                <i class="fa fa-edit"></i>
-              </a>
-              <a href="/delete_invitation/<%= invitation.id %>" class="btn btn-danger" rel="nofollow">
-                <i class="fa fa-trash-o"></i>
-              </a>
-            <% end %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
-
-<!-- A User has many commented_events -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Commented Events
-      </li>
-
-      <% @user.commented_events.each do |event| %>
         <li class="list-group-item">
           <a href="/events/<%= event.id %>">
             <%= event.user_id %>
@@ -200,6 +98,39 @@
                 <i class="fa fa-edit"></i>
               </a>
               <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">
+                <i class="fa fa-trash-o"></i>
+              </a>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<!-- A User has many invitations -->
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Connections (anyone who I have had an event with)
+      </li>
+
+      <% @user.invitations.each do |invitation| %>
+        <li class="list-group-item">
+          <a href="/invitations/<%= invitation.id %>">
+            <%= invitation.user_id %>
+          </a>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="/invitations/<%= invitation.id %>" class="btn btn-primary">
+              <i class="fa fa-search-plus"></i>
+            </a>
+            <%if current_user == invitation.user %>
+              <a href="/invitations/<%= invitation.id %>/edit" class="btn btn-warning">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="/delete_invitation/<%= invitation.id %>" class="btn btn-danger" rel="nofollow">
                 <i class="fa fa-trash-o"></i>
               </a>
             <% end %>
