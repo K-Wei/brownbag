@@ -22,8 +22,20 @@
 
       <% @invitations.each do |invitation| %>
       <tr>
-        <td><%= invitation.user.email %></td>
-        <td><%= invitation.event.user_id %></td>
+        <td>
+          <% if invitation.user.present? %>
+            <a href="/users/<%= invitation.user.id %>">
+              <%= invitation.user.email %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if invitation.event.present? %>
+            <a href="/events/<%= invitation.event.id %>">
+              <%= invitation.event.user_id %>
+            </a>
+          <% end %>
+        </td>
         <td><%= invitation.confirmed_reservation %></td>
         <td><%= invitation.host_approval %></td>
         <td><%= invitation.guest_approval %></td>

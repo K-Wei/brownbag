@@ -25,8 +25,20 @@
 
       <% @events.each do |event| %>
       <tr>
-        <td><%= event.user.email %></td>
-        <td><%= event.restaurant.name %></td>
+        <td>
+          <% if event.user.present? %>
+            <a href="/users/<%= event.user.id %>">
+              <%= event.user.email %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if event.restaurant.present? %>
+            <a href="/restaurants/<%= event.restaurant.id %>">
+              <%= event.restaurant.name %>
+            </a>
+          <% end %>
+        </td>
         <td><%= event.host %></td>
         <td><%= event.title %></td>
         <td><%= event.description %></td>
