@@ -33,7 +33,7 @@
           Restaurant
         </label>
 
-        <input type="text" id="restaurant_id" name="restaurant_id" placeholder="Restaurant" class="form-control" value="<%= @event.restaurant_id %>">
+        <%= select_tag(:restaurant_id, options_from_collection_for_select(Restaurant.all, :id, :name, @event.restaurant_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for host -->
