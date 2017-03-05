@@ -1,6 +1,9 @@
 class Event < ApplicationRecord
   # Direct associations
 
+  belongs_to :restaurant,
+             :counter_cache => true
+
   has_many   :invitations,
              :dependent => :destroy
 
