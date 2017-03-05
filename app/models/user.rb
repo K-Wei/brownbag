@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  mount_uploader :profile_picture, ProfilePictureUploader
+
   # Direct associations
 
   has_many   :invitations,
