@@ -1,0 +1,82 @@
+<!-- Validation failure messages -->
+<% if @restaurant.errors.any? %>
+  <% @restaurant.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Restaurant #<%= @restaurant.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_restaurant/<%= @restaurant.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for name -->
+      <div class="form-group">
+        <label for="name" class="control-label">
+          Name
+        </label>
+
+        <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="<%= @restaurant.name %>">
+      </div>
+
+      <!-- Label and input for location -->
+      <div class="form-group">
+        <label for="location" class="control-label">
+          Location
+        </label>
+
+        <input type="text" id="location" name="location" placeholder="Location" class="form-control" value="<%= @restaurant.location %>">
+      </div>
+
+      <!-- Label and input for yelp_url -->
+      <div class="form-group">
+        <label for="yelp_url" class="control-label">
+          Yelp url
+        </label>
+
+        <input type="text" id="yelp_url" name="yelp_url" placeholder="Yelp url" class="form-control" value="<%= @restaurant.yelp_url %>">
+      </div>
+
+      <!-- Label and input for price -->
+      <div class="form-group">
+        <label for="price" class="control-label">
+          Price
+        </label>
+
+        <input type="text" id="price" name="price" placeholder="Price" class="form-control" value="<%= @restaurant.price %>">
+      </div>
+
+      <!-- Label and input for categories -->
+      <div class="form-group">
+        <label for="categories" class="control-label">
+          Categories
+        </label>
+
+        <textarea id="categories" name="categories" placeholder="Categories" class="form-control" rows="3"><%= @restaurant.categories %></textarea>
+      </div>
+
+      <!-- Label and input for picture_url -->
+      <div class="form-group">
+        <label for="picture_url" class="control-label">
+          Picture url
+        </label>
+
+        <input type="text" id="picture_url" name="picture_url" placeholder="Picture url" class="form-control" value="<%= @restaurant.picture_url %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update Restaurant
+      </button>
+      or
+      <a href="/restaurants/<%= @restaurant.id %>">Cancel</a>
+    </form>
+  </div>
+</div>
