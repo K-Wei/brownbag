@@ -25,7 +25,7 @@
 
       <% @events.each do |event| %>
       <tr>
-        <td><%= event.user_id %></td>
+        <td><%= event.user.email %></td>
         <td><%= event.restaurant_id %></td>
         <td><%= event.host %></td>
         <td><%= event.title %></td>
