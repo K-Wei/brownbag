@@ -12,6 +12,10 @@ class User < ApplicationRecord
 
   # Indirect associations
 
+  has_many   :commented_events,
+             :through => :comments,
+             :source => :event
+
   # Validations
 
   # Include default devise modules. Others available are:
