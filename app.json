@@ -1,0 +1,1 @@
+{"name":"BrownBag","repository":"https://github.com/K-Wei/brownbag","env":{"CLOUDINARY_CLOUD_NAME":{"required":true},"CLOUDINARY_API_KEY":{"required":true},"CLOUDINARY_API_SECRET":{"required":true},"ROLLBAR_ACCESS_TOKEN":{"required":true}}}
