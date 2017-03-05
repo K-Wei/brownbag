@@ -1,4 +1,14 @@
 class EventsController < ApplicationController
+  before_action :current_user_must_be_event_user, :only => [:edit, :update, :destroy]
+
+  def current_user_must_be_event_user
+    event = Event.find(params[:id])
+
+    unless current_user == event.user
+      redirect_to :back, :alert => "You are not authorized for that."
+    end
+  end
+
   def index
     @events = Event.all
 

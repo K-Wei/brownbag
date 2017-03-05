@@ -38,8 +38,11 @@
         <td><%= event.intent %></td>
         <td>
           <a href="/events/<%= event.id %>" class="btn btn-primary">Show</a>
-          <a href="/events/<%= event.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          
+          <% if current_user == event.user %>
+            <a href="/events/<%= event.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
         </td>
       </tr>
       <% end %>

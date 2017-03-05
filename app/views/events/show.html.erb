@@ -44,12 +44,14 @@
       <a href="/events" class="btn btn-primary">
         Back
       </a>
-      <a href="/events/<%= @event.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_event/<%= @event.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
+      <% if current_user == @event.user %>
+        <a href="/events/<%= @event.id %>/edit" class="btn btn-warning">
+          Edit
+        </a>
+        <a href="/delete_event/<%= @event.id %>" class="btn btn-danger" rel="nofollow">
+          Delete
+        </a>
+      <% end %>
     </div>
   </div>
 </div>
