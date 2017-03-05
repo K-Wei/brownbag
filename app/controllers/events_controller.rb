@@ -56,8 +56,6 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
-
-    @event.user_id = params[:user_id]
     @event.restaurant_id = params[:restaurant_id]
     @event.host = params[:host]
     @event.title = params[:title]
