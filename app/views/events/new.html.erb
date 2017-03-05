@@ -1,0 +1,126 @@
+<!-- Validation failure messages -->
+<% if @event.errors.any? %>
+  <% @event.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Event</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_event" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @event.user_id %>">
+      </div>
+
+      <!-- Label and input for restaurant_id -->
+      <div class="form-group">
+        <label for="restaurant_id" class="control-label">
+          Restaurant
+        </label>
+
+        <input type="text" id="restaurant_id" name="restaurant_id" placeholder="Restaurant" class="form-control" value="<%= @event.restaurant_id %>">
+      </div>
+
+      <!-- Label and input for host -->
+      <div class="form-group">
+        <label for="host" class="control-label">
+          Host
+        </label>
+
+        <input type="text" id="host" name="host" placeholder="Host" class="form-control" value="<%= @event.host %>">
+      </div>
+
+      <!-- Label and input for title -->
+      <div class="form-group">
+        <label for="title" class="control-label">
+          Title
+        </label>
+
+        <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @event.title %>">
+      </div>
+
+      <!-- Label and input for description -->
+      <div class="form-group">
+        <label for="description" class="control-label">
+          Description
+        </label>
+
+        <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><%= @event.description %></textarea>
+      </div>
+
+      <!-- Label and input for event_date -->
+      <div class="form-group">
+        <label for="event_date" class="control-label">
+          Event date
+        </label>
+
+        <input type="text" id="event_date" name="event_date" placeholder="Event date" class="form-control" value="<%= @event.event_date %>">
+      </div>
+
+      <!-- Label and input for start_time -->
+      <div class="form-group">
+        <label for="start_time" class="control-label">
+          Start time
+        </label>
+
+        <input type="text" id="start_time" name="start_time" placeholder="Start time" class="form-control" value="<%= @event.start_time %>">
+      </div>
+
+      <!-- Label and input for end_tme -->
+      <div class="form-group">
+        <label for="end_tme" class="control-label">
+          End tme
+        </label>
+
+        <input type="text" id="end_tme" name="end_tme" placeholder="End tme" class="form-control" value="<%= @event.end_tme %>">
+      </div>
+
+      <!-- Label and input for available -->
+      <div class="checkbox">
+        <label for="available">
+          <input type="checkbox" id="available" name="available" value="1" <%= "checked" if @event.available %>>
+          Available
+        </label>
+      </div>
+
+      <!-- Label and input for capacity_limit -->
+      <div class="form-group">
+        <label for="capacity_limit" class="control-label">
+          Capacity limit
+        </label>
+
+        <input type="text" id="capacity_limit" name="capacity_limit" placeholder="Capacity limit" class="form-control" value="<%= @event.capacity_limit %>">
+      </div>
+
+      <!-- Label and input for intent -->
+      <div class="form-group">
+        <label for="intent" class="control-label">
+          Intent
+        </label>
+
+        <input type="text" id="intent" name="intent" placeholder="Intent" class="form-control" value="<%= @event.intent %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Event
+      </button>
+      or
+      <a href="/events">Cancel</a>
+    </form>
+  </div>
+</div>

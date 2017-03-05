@@ -1,0 +1,55 @@
+<div class="page-header">
+  <h3>Event #<%= @event.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>User</dt>
+      <dd><%= @event.user_id %></dd>
+
+      <dt>Restaurant</dt>
+      <dd><%= @event.restaurant_id %></dd>
+
+      <dt>Host</dt>
+      <dd><%= @event.host %></dd>
+
+      <dt>Title</dt>
+      <dd><%= @event.title %></dd>
+
+      <dt>Description</dt>
+      <dd><%= @event.description %></dd>
+
+      <dt>Event date</dt>
+      <dd><%= @event.event_date %></dd>
+
+      <dt>Start time</dt>
+      <dd><%= @event.start_time %></dd>
+
+      <dt>End tme</dt>
+      <dd><%= @event.end_tme %></dd>
+
+      <dt>Available</dt>
+      <dd><%= @event.available %></dd>
+
+      <dt>Capacity limit</dt>
+      <dd><%= @event.capacity_limit %></dd>
+
+      <dt>Intent</dt>
+      <dd><%= @event.intent %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/events" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/events/<%= @event.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_event/<%= @event.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
