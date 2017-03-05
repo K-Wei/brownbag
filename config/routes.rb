@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  root :to => "invitations#index"
+  root :to => "events#index"
   # Routes for the Restaurant resource:
   # CREATE
   get "/restaurants/new", :controller => "restaurants", :action => "new"
@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   # READ
   get "/users", :controller => "users", :action => "index"
   get "/users/:id", :controller => "users", :action => "show"
+  get "/myevents", :controller => "users", :action => "myevents"
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
