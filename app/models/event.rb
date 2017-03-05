@@ -15,6 +15,10 @@ class Event < ApplicationRecord
 
   # Indirect associations
 
+  has_many   :attendees,
+             :through => :invitations,
+             :source => :user
+
   has_many   :commenters,
              :through => :comments,
              :source => :user
