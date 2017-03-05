@@ -38,3 +38,34 @@
     </div>
   </div>
 </div>
+
+<!-- A Restaurant has many events -->
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Events
+      </li>
+
+      <% @restaurant.events.each do |event| %>
+        <li class="list-group-item">
+          <a href="/events/<%= event.id %>">
+            <%= event.user_id %>
+          </a>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="/events/<%= event.id %>" class="btn btn-primary">
+              <i class="fa fa-search-plus"></i>
+            </a>
+            <a href="/events/<%= event.id %>/edit" class="btn btn-warning">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

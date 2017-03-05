@@ -14,3 +14,4 @@
 /vendor/cache/*
 /vendor/bundle
 !/vendor/assets/
+public/uploads
