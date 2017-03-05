@@ -83,6 +83,32 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_comment" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for user_id -->
+      <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+      <!-- Label and input for event_id -->
+      <input type="hidden" name="event_id" value="<%= @event.id %>">
+
+      <!-- Label and input for body -->
+      <div class="form-group">
+        <label for="body" class="control-label">
+          Body
+        </label>
+
+        <textarea id="body" name="body" placeholder="Body" class="form-control" rows="3"></textarea>
+      </div>
+
+      <button class="btn btn-block btn-success">
+        Create Comment
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>
@@ -114,6 +140,79 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_invitation" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for event_id -->
+      <input type="hidden" name="event_id" value="<%= @event.id %>">
+
+      <!-- Label and input for confirmed_reservation -->
+      <div class="checkbox">
+        <label for="confirmed_reservation">
+          <input type="checkbox" id="confirmed_reservation" name="confirmed_reservation" value="1" <%= "checked" if @invitation.confirmed_reservation %>>
+          Confirmed reservation
+        </label>
+      </div>
+
+      <!-- Label and input for host_approval -->
+      <div class="checkbox">
+        <label for="host_approval">
+          <input type="checkbox" id="host_approval" name="host_approval" value="1" <%= "checked" if @invitation.host_approval %>>
+          Host approval
+        </label>
+      </div>
+
+      <!-- Label and input for guest_approval -->
+      <div class="checkbox">
+        <label for="guest_approval">
+          <input type="checkbox" id="guest_approval" name="guest_approval" value="1" <%= "checked" if @invitation.guest_approval %>>
+          Guest approval
+        </label>
+      </div>
+
+      <!-- Label and input for public_request -->
+      <div class="checkbox">
+        <label for="public_request">
+          <input type="checkbox" id="public_request" name="public_request" value="1" <%= "checked" if @invitation.public_request %>>
+          Public request
+        </label>
+      </div>
+
+      <!-- Label and input for title -->
+      <div class="form-group">
+        <label for="title" class="control-label">
+          Title
+        </label>
+
+        <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for description -->
+      <div class="form-group">
+        <label for="description" class="control-label">
+          Description
+        </label>
+
+        <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"></textarea>
+      </div>
+
+      <button class="btn btn-block btn-success">
+        Create Invitation
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>

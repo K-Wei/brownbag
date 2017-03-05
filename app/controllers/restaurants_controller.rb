@@ -6,6 +6,7 @@ class RestaurantsController < ApplicationController
   end
 
   def show
+    @event = Event.new
     @restaurant = Restaurant.find(params[:id])
 
     render("restaurants/show.html.erb")
