@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1>
+    Invitations
+    <a href="/invitations/new" class="btn btn-lg btn-success">New Invitation</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>User</th>
+        <th>Event</th>
+        <th>Confirmed reservation</th>
+        <th>Host approval</th>
+        <th>Guest approval</th>
+        <th>Public request</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @invitations.each do |invitation| %>
+      <tr>
+        <td><%= invitation.user_id %></td>
+        <td><%= invitation.event_id %></td>
+        <td><%= invitation.confirmed_reservation %></td>
+        <td><%= invitation.host_approval %></td>
+        <td><%= invitation.guest_approval %></td>
+        <td><%= invitation.public_request %></td>
+        <td><%= invitation.title %></td>
+        <td><%= invitation.description %></td>
+        <td>
+          <a href="/invitations/<%= invitation.id %>" class="btn btn-primary">Show</a>
+          <a href="/invitations/<%= invitation.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_invitation/<%= invitation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
