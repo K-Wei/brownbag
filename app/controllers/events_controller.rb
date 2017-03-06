@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :current_user_must_be_event_user, :only => [:edit, :update, :destroy]
+  skip_before_action :authenticate_user!, :only => [:index, :show]
 
   def current_user_must_be_event_user
     event = Event.find(params[:id])
