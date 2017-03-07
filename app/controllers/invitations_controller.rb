@@ -1,6 +1,21 @@
 class InvitationsController < ApplicationController
   def index
+    @user = current_user
+
     @q = Invitation.ransack(params[:q])
+
+    # get list of public requests the current user has recieved (for self-hosted event)
+    @recieved_pubrequests = Invitation.where(:event_id => Event.where(:user_id => current_user.id), :host_approval => false, :guest_approval => true, :public_request => true, :declined => false)
+
+    # get list of invitations the current user has recieved (for non-hosted event)
+    @recieved_privinvites = Invitation.where(:user_id => current_user.id, :host_approval => true, :guest_approval => false, :public_request => false, :declined => false)
+
+    # get list of public requests the current user has sent (for non=hosted event)
+    @pending_pubrequests = Invitation.where(:user_id => current_user.id, :host_approval => false, :guest_approval => true, :public_request => true, :declined => false)
+
+    # get list of invitations the current user has sent (for self-hosted event)
+    @pending_privinvitations = Invitation.where(:event_id => Event.where(:user_id => current_user.id), :host_approval => true, :guest_approval => false, :public_request => false, :declined => false)
+
     @invitations = @q.result(:distinct => true).includes(:user, :event).page(params[:page]).per(10)
 
     render("invitations/index.html.erb")
