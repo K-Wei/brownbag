@@ -50,6 +50,21 @@ class EventsController < ApplicationController
     save_status = @event.save
 
     if save_status == true
+
+      @invitation = Invitation.new
+      @invitation.user_id = current_user.id
+      @invitation.event_id = @event.id
+      @invitation.confirmed_reservation = true
+      @invitation.host_approval = true
+      @invitation.guest_approval = true
+      @invitation.public_request = false
+      @invitation.title = @event.title.to_s + " (event_id: " + @event.id.to_s + " ) " + "reservation for Host("+ @event.host.to_s + ") / User_id(" + @current_user.id.to_s + ")"
+      @invitation.description = @invitation.title.to_s + ". This is the default invitation automatically generated for a host when an event is created"
+      @invitation.created_at = @event.created_at
+      @invitation.updated_at = @event.updated_at
+
+      @invitation.save
+
       referer = URI(request.referer).path
 
       case referer
