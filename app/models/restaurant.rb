@@ -27,4 +27,8 @@ class Restaurant < ApplicationRecord
 
   # Validations
 
+  def name_with_address
+    return self.name + " (" + self.location + ")"
+
+  end
 end
