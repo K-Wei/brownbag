@@ -1,6 +1,6 @@
 ActiveAdmin.register Event do
 
- permit_params :user_id, :restaurant_id, :host, :title, :description, :event_date, :start_time, :end_tme, :available, :capacity_limit, :intent
+ permit_params :user_id, :restaurant_id, :host, :title, :description, :event_date, :start_time, :end_time, :available, :capacity_limit, :intent
 
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

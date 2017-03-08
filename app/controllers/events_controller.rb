@@ -26,6 +26,7 @@ class EventsController < ApplicationController
   end
 
   def new
+    @user = current_user
     @event = Event.new
 
     render("events/new.html.erb")
@@ -41,7 +42,7 @@ class EventsController < ApplicationController
     @event.description = params[:description]
     @event.event_date = Chronic.parse(params[:event_date])
     @event.start_time = params[:start_time]
-    @event.end_tme = params[:end_tme]
+    @event.end_time = params[:end_time]
     @event.available = params[:available]
     @event.capacity_limit = params[:capacity_limit]
     @event.intent = params[:intent]
@@ -76,7 +77,7 @@ class EventsController < ApplicationController
     @event.description = params[:description]
     @event.event_date = params[:event_date]
     @event.start_time = params[:start_time]
-    @event.end_tme = params[:end_tme]
+    @event.end_time = params[:end_time]
     @event.available = params[:available]
     @event.capacity_limit = params[:capacity_limit]
     @event.intent = params[:intent]
