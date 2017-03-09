@@ -7,20 +7,20 @@
   <div class="col-md-8 col-md-offset-2">
     <div class="panel panel-default">
 
-      <% @myattendedevents.each do |invitation| %>
+      <% @myattendedevents.each do |reservation| %>
 
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a href="/users/<%= invitation.event.user_id %>"> <%= invitation.user %></a>
+          <a href="/users/<%= reservation.event.user_id %>"> <%= reservation.user %></a>
           <small>
-            Created <%= time_ago_in_words(invitation.event.created_at) %> ago
+            Created <%= time_ago_in_words(reservation.event.created_at) %> ago
           </small>
         </h3>
       </div>
 
       <div class="panel-body">
-        <a href="/events/<%= invitation.event.id %>">
-          <img src="<%= invitation.event.image %>" class="img-responsive">
+        <a href="/events/<%= reservation.event.id %>">
+          <img src="<%= reservation.event.image %>" class="img-responsive">
         </a>
         <p>
         </p>
@@ -28,12 +28,12 @@
           <li class="media">
             <div class="media-body">
               <h6 class="media-heading">
-                <a href="/users/<%= invitation.event.user_id %>"><%= invitation.event.user.username %></a>
+                <a href="/users/<%= reservation.event.user_id %>"><%= reservation.event.user.username %></a>
                 <small>
-                  Over <%= time_ago_in_words(invitation.event.created_at) %> ago
+                  Over <%= time_ago_in_words(reservation.event.created_at) %> ago
                 </small>
               </h6>
-              <p> <%= invitation.event.caption %></p>
+              <p> <%= reservation.event.caption %></p>
             </div>
           </li>
         </ul>

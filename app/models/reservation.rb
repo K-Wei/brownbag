@@ -1,4 +1,4 @@
-class Invitation < ApplicationRecord
+class Reservation < ApplicationRecord
   # Direct associations
 
   belongs_to :event,

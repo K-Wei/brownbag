@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def myevents
 
-    @myattendedevents = Invitation.where(:user_id => current_user.id)
+    @myattendedevents = Reservation.where(:user_id => current_user.id)
 
   end
 end

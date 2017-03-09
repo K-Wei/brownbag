@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   # Direct associations
 
-  has_many   :invitations,
+  has_many   :reservations,
              :dependent => :destroy
 
   has_many   :comments,
@@ -15,7 +15,7 @@ class User < ApplicationRecord
   # Indirect associations
 
   has_many   :attended_events,
-             :through => :invitations,
+             :through => :reservations,
              :source => :event
 
   has_many   :commented_events,
