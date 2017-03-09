@@ -64,16 +64,16 @@
   </div>
 
 <div class="form-group">
-    <%= f.label :confirmed_reservation_eq, "Confirmed reservation" %>
+    <%= f.label :confirmed_eq, "Confirmed reservation" %>
     <div>
       <label class="radio-inline">
-        <%= f.radio_button :confirmed_reservation_eq, "1", checked: ((params[:q] && params[:q][:confirmed_reservation_eq]) == "1" ? "checked" : "") %> Yes
+        <%= f.radio_button :confirmed_eq, "1", checked: ((params[:q] && params[:q][:confirmed_eq]) == "1" ? "checked" : "") %> Yes
       </label>
       <label class="radio-inline">
-        <%= f.radio_button :confirmed_reservation_eq, "0", checked: ((params[:q] && params[:q][:confirmed_reservation_eq]) == "0" ? "checked" : "")%> No
+        <%= f.radio_button :confirmed_eq, "0", checked: ((params[:q] && params[:q][:confirmed_eq]) == "0" ? "checked" : "")%> No
       </label>
       <label class="radio-inline">
-        <%= f.radio_button :confirmed_reservation_eq, ""%> Either
+        <%= f.radio_button :confirmed_eq, ""%> Either
       </label>
     </div>
   </div>
@@ -164,7 +164,7 @@
             </a>
           <% end %>
         </td>
-        <td><%= invitation.confirmed_reservation %></td>
+        <td><%= invitation.confirmed %></td>
         <td><%= invitation.host_approval %></td>
         <td><%= invitation.guest_approval %></td>
         <td><%= invitation.public_request %></td>

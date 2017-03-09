@@ -54,7 +54,7 @@ class EventsController < ApplicationController
       @invitation = Invitation.new
       @invitation.user_id = current_user.id
       @invitation.event_id = @event.id
-      @invitation.confirmed_reservation = true
+      @invitation.confirmed = true
       @invitation.host_approval = true
       @invitation.guest_approval = true
       @invitation.public_request = false

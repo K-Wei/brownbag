@@ -170,10 +170,10 @@
       <!-- Label and input for event_id -->
       <input type="hidden" name="event_id" value="<%= @event.id %>">
 
-      <!-- Label and input for confirmed_reservation -->
+      <!-- Label and input for confirmed -->
       <div class="checkbox">
-        <label for="confirmed_reservation">
-          <input type="checkbox" id="confirmed_reservation" name="confirmed_reservation" value="1" <%= "checked" if @invitation.confirmed_reservation %>>
+        <label for="confirmed">
+          <input type="checkbox" id="confirmed" name="confirmed" value="1" <%= "checked" if @invitation.confirmed %>>
           Confirmed reservation
         </label>
       </div>

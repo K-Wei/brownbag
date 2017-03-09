@@ -3,7 +3,7 @@ class CreateInvitations < ActiveRecord::Migration
     create_table :invitations do |t|
       t.integer :user_id
       t.integer :event_id
-      t.boolean :confirmed_reservation
+      t.boolean :confirmed
       t.boolean :host_approval
       t.boolean :guest_approval
       t.boolean :public_request

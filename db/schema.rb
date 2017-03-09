@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308214022) do
+ActiveRecord::Schema.define(version: 20170309044002) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20170308214022) do
   create_table "invitations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
-    t.boolean  "confirmed_reservation"
+    t.boolean  "confirmed"
     t.boolean  "host_approval"
     t.boolean  "guest_approval"
     t.boolean  "public_request"

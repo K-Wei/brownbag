@@ -38,7 +38,7 @@ class InvitationsController < ApplicationController
 
     @invitation.user_id = params[:user_id]
     @invitation.event_id = params[:event_id]
-    @invitation.confirmed_reservation = params[:confirmed_reservation]
+    @invitation.confirmed = params[:confirmed]
     @invitation.host_approval = params[:host_approval]
     @invitation.guest_approval = params[:guest_approval]
     @invitation.public_request = params[:public_request]
@@ -72,7 +72,7 @@ class InvitationsController < ApplicationController
 
     @invitation.user_id = params[:user_id]
     @invitation.event_id = params[:event_id]
-    @invitation.confirmed_reservation = params[:confirmed_reservation]
+    @invitation.confirmed = params[:confirmed]
     @invitation.host_approval = params[:host_approval]
     @invitation.guest_approval = params[:guest_approval]
     @invitation.public_request = params[:public_request]
