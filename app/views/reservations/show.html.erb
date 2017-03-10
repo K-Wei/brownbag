@@ -1,0 +1,58 @@
+<div class="page-header">
+  <h3>Reservation #<%= @reservation.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>User</dt>
+      <dd>
+        <% if @reservation.user.present? %>
+          <a href="/users/<%= @reservation.user_id %>">
+            <%= @reservation.user.email %>
+          </a>
+        <% end %>
+      </dd>
+
+      <dt>Event</dt>
+      <dd>
+        <% if @reservation.event.present? %>
+          <a href="/events/<%= @reservation.event_id %>">
+            <%= @reservation.event.user_id %>
+          </a>
+        <% end %>
+      </dd>
+
+      <dt>Confirmed reservation</dt>
+      <dd><%= @reservation.confirmed %></dd>
+
+      <dt>Host approval</dt>
+      <dd><%= @reservation.host_approval %></dd>
+
+      <dt>Guest approval</dt>
+      <dd><%= @reservation.guest_approval %></dd>
+
+      <dt>Public request</dt>
+      <dd><%= @reservation.public_request %></dd>
+
+      <dt>Title</dt>
+      <dd><%= @reservation.title %></dd>
+
+      <dt>Description</dt>
+      <dd><%= @reservation.description %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/reservations" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/reservations/<%= @reservation.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_reservation/<%= @reservation.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>

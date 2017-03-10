@@ -53,21 +53,21 @@ Rails.application.routes.draw do
   get "/delete_event/:id", :controller => "events", :action => "destroy"
   #------------------------------
 
-  # Routes for the Invitation resource:
+  # Routes for the Reservation resource:
   # CREATE
-  get "/invitations/new", :controller => "invitations", :action => "new"
-  post "/create_invitation", :controller => "invitations", :action => "create"
+  get "/reservations/new", :controller => "reservations", :action => "new"
+  post "/create_reservation", :controller => "reservations", :action => "create"
 
   # READ
-  get "/invitations", :controller => "invitations", :action => "index"
-  get "/invitations/:id", :controller => "invitations", :action => "show"
+  get "/reservations", :controller => "reservations", :action => "index"
+  get "/reservations/:id", :controller => "reservations", :action => "show"
 
   # UPDATE
-  get "/invitations/:id/edit", :controller => "invitations", :action => "edit"
-  post "/update_invitation/:id", :controller => "invitations", :action => "update"
+  get "/reservations/:id/edit", :controller => "reservations", :action => "edit"
+  post "/update_reservation/:id", :controller => "reservations", :action => "update"
 
   # DELETE
-  get "/delete_invitation/:id", :controller => "invitations", :action => "destroy"
+  get "/delete_reservation/:id", :controller => "reservations", :action => "destroy"
   #------------------------------
 
   devise_for :users

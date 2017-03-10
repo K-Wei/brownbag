@@ -1,6 +1,6 @@
 <!-- Validation failure messages -->
-<% if @invitation.errors.any? %>
-  <% @invitation.errors.full_messages.each do |message| %>
+<% if @reservation.errors.any? %>
+  <% @reservation.errors.full_messages.each do |message| %>
     <div class="alert alert-dismissable alert-danger">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <%= message %>
@@ -9,12 +9,12 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Add Invitation</h3>
+  <h3>Edit Reservation #<%= @reservation.id %></h3>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <form action="/create_invitation" method="post">
+    <form action="/update_reservation/<%= @reservation.id %>" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
@@ -24,7 +24,7 @@
           User
         </label>
 
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email, @invitation.user_id), :class => "form-control") %>
+        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email, @reservation.user_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for event_id -->
@@ -33,13 +33,13 @@
           Event
         </label>
 
-        <%= select_tag(:event_id, options_from_collection_for_select(Event.all, :id, :user_id, @invitation.event_id), :class => "form-control") %>
+        <%= select_tag(:event_id, options_from_collection_for_select(Event.all, :id, :user_id, @reservation.event_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for confirmed -->
       <div class="checkbox">
         <label for="confirmed">
-          <input type="checkbox" id="confirmed" name="confirmed" value="1" <%= "checked" if @invitation.confirmed %>>
+          <input type="checkbox" id="confirmed" name="confirmed" value="1" <%= "checked" if @reservation.confirmed %>>
           Confirmed reservation
         </label>
       </div>
@@ -47,7 +47,7 @@
       <!-- Label and input for host_approval -->
       <div class="checkbox">
         <label for="host_approval">
-          <input type="checkbox" id="host_approval" name="host_approval" value="1" <%= "checked" if @invitation.host_approval %>>
+          <input type="checkbox" id="host_approval" name="host_approval" value="1" <%= "checked" if @reservation.host_approval %>>
           Host approval
         </label>
       </div>
@@ -55,7 +55,7 @@
       <!-- Label and input for guest_approval -->
       <div class="checkbox">
         <label for="guest_approval">
-          <input type="checkbox" id="guest_approval" name="guest_approval" value="1" <%= "checked" if @invitation.guest_approval %>>
+          <input type="checkbox" id="guest_approval" name="guest_approval" value="1" <%= "checked" if @reservation.guest_approval %>>
           Guest approval
         </label>
       </div>
@@ -63,7 +63,7 @@
       <!-- Label and input for public_request -->
       <div class="checkbox">
         <label for="public_request">
-          <input type="checkbox" id="public_request" name="public_request" value="1" <%= "checked" if @invitation.public_request %>>
+          <input type="checkbox" id="public_request" name="public_request" value="1" <%= "checked" if @reservation.public_request %>>
           Public request
         </label>
       </div>
@@ -74,7 +74,7 @@
           Title
         </label>
 
-        <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @invitation.title %>">
+        <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @reservation.title %>">
       </div>
 
       <!-- Label and input for description -->
@@ -83,14 +83,14 @@
           Description
         </label>
 
-        <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><%= @invitation.description %></textarea>
+        <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><%= @reservation.description %></textarea>
       </div>
 
-      <button class="btn btn-success">
-        Create Invitation
+      <button class="btn btn-warning">
+        Update Reservation
       </button>
       or
-      <a href="/invitations">Cancel</a>
+      <a href="/reservations/<%= @reservation.id %>">Cancel</a>
     </form>
   </div>
 </div>

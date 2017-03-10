@@ -1,4 +1,4 @@
-ActiveAdmin.register Invitation do
+ActiveAdmin.register Reservation do
 
  permit_params :user_id, :event_id, :confirmed, :host_approval, :guest_approval, :public_request, :title, :description
 

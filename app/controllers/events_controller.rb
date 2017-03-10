@@ -12,13 +12,13 @@ class EventsController < ApplicationController
 
   def index
     @q = Event.ransack(params[:q])
-    @events = @q.result(:distinct => true).includes(:user, :comments, :invitations, :restaurant, :commenters, :attendees).page(params[:page]).per(10)
+    @events = @q.result(:distinct => true).includes(:user, :comments, :reservations, :restaurant, :commenters, :attendees).page(params[:page]).per(10)
 
     render("events/index.html.erb")
   end
 
   def show
-    @invitation = Invitation.new
+    @reservation = Reservation.new
     @comment = Comment.new
     @event = Event.find(params[:id])
 
@@ -51,19 +51,19 @@ class EventsController < ApplicationController
 
     if save_status == true
 
-      @invitation = Invitation.new
-      @invitation.user_id = current_user.id
-      @invitation.event_id = @event.id
-      @invitation.confirmed = true
-      @invitation.host_approval = true
-      @invitation.guest_approval = true
-      @invitation.public_request = false
-      @invitation.title = @event.title.to_s + " (event_id: " + @event.id.to_s + " ) " + "reservation for Host("+ @event.host.to_s + ") / User_id(" + @current_user.id.to_s + ")"
-      @invitation.description = @invitation.title.to_s + ". This is the default invitation automatically generated for a host when an event is created"
-      @invitation.created_at = @event.created_at
-      @invitation.updated_at = @event.updated_at
+      @reservation = Reservation.new
+      @reservation.user_id = current_user.id
+      @reservation.event_id = @event.id
+      @reservation.confirmed = true
+      @reservation.host_approval = true
+      @reservation.guest_approval = true
+      @reservation.public_request = false
+      @reservation.title = @event.title.to_s + " (event_id: " + @event.id.to_s + " ) " + "reservation for Host("+ @event.host.to_s + ") / User_id(" + @current_user.id.to_s + ")"
+      @reservation.description = @reservation.title.to_s + ". This is the default reservation automatically generated for a host when an event is created"
+      @reservation.created_at = @event.created_at
+      @reservation.updated_at = @event.updated_at
 
-      @invitation.save
+      @reservation.save
 
       referer = URI(request.referer).path
 

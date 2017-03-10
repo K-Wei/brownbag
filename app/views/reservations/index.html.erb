@@ -1,11 +1,11 @@
 <div class="page-header">
   <h1>
-    Invitations
-    <a href="/invitations/new" class="btn btn-lg btn-success">New Invitation</a>
+    Reservations
+    <a href="/reservations/new" class="btn btn-lg btn-success">New Reservation</a>
   </h1>
 </div><div class="row mb-1">
   <div class="col-md-12">
-    <%= search_form_for @q, :class => collapse_search_form, :id => "invitations_filters" do |f| %>
+    <%= search_form_for @q, :class => collapse_search_form, :id => "reservations_filters" do |f| %>
       <p class="lead">Narrow results:</p>
 
         <div class="form-group">
@@ -125,9 +125,9 @@
 
       <%= f.submit :class => "btn btn-primary btn-block mb-1" %>
 
-      <a href="/invitations" class="btn btn-default btn-block mb-1">Clear filters</a>
+      <a href="/reservations" class="btn btn-default btn-block mb-1">Clear filters</a>
     <% end %>
-    <a class="btn btn-default btn-block mb-1" data-toggle="collapse" href="#invitations_filters">
+    <a class="btn btn-default btn-block mb-1" data-toggle="collapse" href="#reservations_filters">
       Show Filters
     </a>
   </div>
@@ -148,36 +148,36 @@
         <th>Actions</th>
       </tr>
 
-      <% @invitations.each do |invitation| %>
+      <% @reservations.each do |reservation| %>
       <tr>
         <td>
-          <% if invitation.user.present? %>
-            <a href="/users/<%= invitation.user.id %>">
-              <%= invitation.user.email %>
+          <% if reservation.user.present? %>
+            <a href="/users/<%= reservation.user.id %>">
+              <%= reservation.user.email %>
             </a>
           <% end %>
         </td>
         <td>
-          <% if invitation.event.present? %>
-            <a href="/events/<%= invitation.event.id %>">
-              <%= invitation.event.user_id %>
+          <% if reservation.event.present? %>
+            <a href="/events/<%= reservation.event.id %>">
+              <%= reservation.event.user_id %>
             </a>
           <% end %>
         </td>
-        <td><%= invitation.confirmed %></td>
-        <td><%= invitation.host_approval %></td>
-        <td><%= invitation.guest_approval %></td>
-        <td><%= invitation.public_request %></td>
-        <td><%= invitation.title %></td>
-        <td><%= invitation.description %></td>
+        <td><%= reservation.confirmed %></td>
+        <td><%= reservation.host_approval %></td>
+        <td><%= reservation.guest_approval %></td>
+        <td><%= reservation.public_request %></td>
+        <td><%= reservation.title %></td>
+        <td><%= reservation.description %></td>
         <td>
-          <a href="/invitations/<%= invitation.id %>" class="btn btn-primary">Show</a>
-          <a href="/invitations/<%= invitation.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_invitation/<%= invitation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Show</a>
+          <a href="/reservations/<%= reservation.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_reservation/<%= reservation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
         </td>
       </tr>
       <% end %>
     </table>
-    <%= paginate @invitations, theme: 'twitter-bootstrap-4' %>
+    <%= paginate @reservations, theme: 'twitter-bootstrap-4' %>
   </div>
 </div>

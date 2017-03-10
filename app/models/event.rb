@@ -4,7 +4,7 @@ class Event < ApplicationRecord
   belongs_to :restaurant,
              :counter_cache => true
 
-  has_many   :invitations,
+  has_many   :reservations,
              :dependent => :destroy
 
   has_many   :comments,
@@ -16,7 +16,7 @@ class Event < ApplicationRecord
   # Indirect associations
 
   has_many   :attendees,
-             :through => :invitations,
+             :through => :reservations,
              :source => :user
 
   has_many   :commenters,

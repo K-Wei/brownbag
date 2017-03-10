@@ -271,7 +271,7 @@
         <td><%= event.event_date %></td>
         <td><%= event.start_time.strftime("%l:%M %P") %></td>
         <td><%= event.end_time.strftime("%l:%M %P") %></td>
-        <td><%= event.invitations_count %> / <%= event.capacity_limit %></td>
+        <td><%= event.reservations_count %> / <%= event.capacity_limit %></td>
         <td>
           <a href="/events/<%= event.id %>" class="btn btn-primary">Details</a>
 
