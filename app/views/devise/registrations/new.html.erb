@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h2 class="panel-title">Sign up</h2>
@@ -8,13 +8,16 @@
       <div class="panel-body">
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => { :multipart => true }) do |f| %>
 
+<div class="row">
         <div class="form-group">
           <%= f.label :email, class: "col-sm-2 control-label" %>
           <div class="col-sm-10">
             <%= f.email_field :email, autofocus: true, class: "form-control" %>
           </div>
         </div>
+        </div>
 
+<div class="row">
         <div class="form-group">
           <%= f.label :password, class: "col-sm-2 control-label" %>
           <div class="col-sm-10">
@@ -26,80 +29,103 @@
             </p>
           </div>
         </div>
+        </div>
 
+<div class="row">
         <div class="form-group">
           <%= f.label :password_confirmation, class: "col-sm-2 control-label" %>
           <div class="col-sm-10">
             <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
           </div>
         </div>
+        </div>
 
+<div class="row">
         <div class="form-group">
             <%= f.label :first_name, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_field :first_name, :class => "form-control", :placeholder => "Enter first name" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
             <%= f.label :last_name, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_field :last_name, :class => "form-control", :placeholder => "Enter last name" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
             <%= f.label :linkedin_url, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_field :linkedin_url, :class => "form-control", :placeholder => "Enter linkedin url" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
             <%= f.label :profile_picture, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.file_field :profile_picture, :class => "form-control", :placeholder => "Enter profile picture" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
             <%= f.label :title, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_field :title, :class => "form-control", :placeholder => "Enter title" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
             <%= f.label :company, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_field :company, :class => "form-control", :placeholder => "Enter company" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
             <%= f.label :summary, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_area :summary, :class => "form-control", :placeholder => "Enter summary" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
             <%= f.label :interests, class: "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_area :interests, :class => "form-control", :placeholder => "Enter interests" %>
             </div>
           </div>
+          </div>
 
+<div class="row">
           <div class="form-group">
           <div class="col-sm-10 col-sm-offset-2">
             <%= f.submit "Sign up", class: "btn btn-success btn-block" %>
           </div>
         </div>
+        </div>
 
+<div class="row">
         <div class="form-group">
           <div class="col-sm-10 col-sm-offset-2">
             <%= render "devise/shared/links" %>
           </div>
+        </div>
         </div>
         <% end %>
       </div>
