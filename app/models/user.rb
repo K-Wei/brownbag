@@ -34,7 +34,7 @@ class User < ApplicationRecord
   # Validations
   validates :first_name, :presence => true, length: { minimum: 2, maximum: 30}
   validates :last_name, :presence => true, length: { minimum: 2, maximum: 30}
-  validates :linkedin_url, format: { with: /https?:\/\/linkedin.com\/\in\/\w*/ }
+  validates :linkedin_url, format: { with: /https?:\/\/www.linkedin.com\/\in\/\w*/ }
   validates :title, :presence => true
   validates :company, :presence => true
   validates :summary, :presence => true
