@@ -1,11 +1,13 @@
 class User < ApplicationRecord
   mount_uploader :profile_picture, ProfilePictureUploader
 
-  before_save :correct_user_details
+  before_save :capitalize_user_details
 
-  def correct_user_details
+  def capitalize_user_details
     self.first_name = first_name.camelcase
     self.last_name = last_name.camelcase
+    self.title = title.camelcase
+    self.company = company.camelcase
   end
 
   # Direct associations
@@ -32,7 +34,7 @@ class User < ApplicationRecord
   # Validations
   validates :first_name, :presence => true, length: { minimum: 2, maximum: 30}
   validates :last_name, :presence => true, length: { minimum: 2, maximum: 30}
-  validates :linkedin_url, :presence => true
+  validates :linkedin_url, format: { with: /https?:\/\/linkedin.com\/\in\/\w*/ }
   validates :title, :presence => true
   validates :company, :presence => true
   validates :summary, :presence => true
