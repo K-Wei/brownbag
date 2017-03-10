@@ -1,51 +1,35 @@
 <div class="page-header">
-  <h3>Event #<%= @event.id %></h3>
+  <h3><%= @event.title %></h3>
 </div>
 
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
-      <dt>User</dt>
-      <dd>
-        <% if @event.user.present? %>
-          <a href="/users/<%= @event.user_id %>">
-            <%= @event.user.email %>
-          </a>
-        <% end %>
-      </dd>
-
-      <dt>Restaurant</dt>
-      <dd>
-        <% if @event.restaurant.present? %>
-          <a href="/restaurants/<%= @event.restaurant_id %>">
-            <%= @event.restaurant.name %>
-          </a>
-        <% end %>
-      </dd>
 
       <dt>Host</dt>
       <dd><%= @event.host %></dd>
 
-      <dt>Title</dt>
-      <dd><%= @event.title %></dd>
+      <dt>Restaurant</dt>
+      <dd>
+          <a href="/restaurants/<%= @event.restaurant_id %>">
+            <%= @event.restaurant.name %>
+          </a>
+      </dd>
+
+      <dt>Event date</dt>
+      <dd><%= @event.event_date.strftime("%D") %></dd>
+
+      <dt>Start time</dt>
+      <dd><%= @event.start_time.strftime("%l:%M %P") %></dd>
+
+      <dt>End tme</dt>
+      <dd><%= @event.end_time.strftime("%l:%M %P") %></dd>
 
       <dt>Description</dt>
       <dd><%= @event.description %></dd>
 
-      <dt>Event date</dt>
-      <dd><%= @event.event_date %></dd>
-
-      <dt>Start time</dt>
-      <dd><%= @event.start_time %></dd>
-
-      <dt>End tme</dt>
-      <dd><%= @event.end_time %></dd>
-
-      <dt>Available</dt>
-      <dd><%= @event.available %></dd>
-
-      <dt>Capacity limit</dt>
-      <dd><%= @event.capacity_limit %></dd>
+      <dt>Capacity</dt>
+      <dd><%= @event.reservations_count %> / <%= @event.capacity_limit %></dd>
 
       <dt>Intent</dt>
       <dd><%= @event.intent %></dd>
@@ -68,6 +52,7 @@
   </div>
 </div>
 
+<% if current_user.present? %>
 <!-- A Event has many comments -->
 
 <div class="row">
@@ -80,12 +65,11 @@
       <% @event.comments.each do |comment| %>
         <li class="list-group-item">
           <a href="/comments/<%= comment.id %>">
-            <%= comment.user_id %>
+            <%= comment.body %>
           </a>
+
+          <% if current_user == comment.user %>
           <div class="btn-group btn-group-xs pull-right">
-            <a href="/comments/<%= comment.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
             <a href="/comments/<%= comment.id %>/edit" class="btn btn-warning">
               <i class="fa fa-edit"></i>
             </a>
@@ -93,6 +77,14 @@
               <i class="fa fa-trash-o"></i>
             </a>
           </div>
+          <% elsif current_user == @event.user %>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
+          <% end %>
+
         </li>
       <% end %>
 
@@ -290,3 +282,4 @@
     </ul>
   </div>
 </div>
+<% end %>
