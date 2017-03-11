@@ -58,8 +58,8 @@ class EventsController < ApplicationController
       @reservation.host_approval = true
       @reservation.guest_approval = true
       @reservation.public_request = false
-      @reservation.title = @event.title.to_s + " (event_id: " + @event.id.to_s + " ) " + "reservation for Host("+ @event.host.to_s + ") / User_id(" + @current_user.id.to_s + ")"
-      @reservation.description = @reservation.title.to_s + ". This is the default reservation automatically generated for a host when an event is created"
+      @reservation.title = "You are hosting " + @event.title.to_s + " on " + @event.event_date.to_s + " from " + @event.start_time.to_s + " to " + @event.end_time.to_s
+      @reservation.description = @reservation.title.to_s + ". This reservation is automatically generated for you when you choose to host an event"
       @reservation.created_at = @event.created_at
       @reservation.updated_at = @event.updated_at
 
