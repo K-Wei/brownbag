@@ -7,11 +7,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @hosted_count = @user.events_count
+    @attended_count = @user.reservations_count - @hosted_count
   end
 
   def myevents
 
-    @myattendedevents = Reservation.where(:user_id => current_user.id)
+    @myevents = Reservation.where(:user_id => current_user.id)
 
   end
 end

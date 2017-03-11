@@ -1,24 +1,17 @@
-<div class="page-header">
-  <h3>User #<%= @user.id %></h3>
+<div class="page-header" align="center">
+  <h3><%= @user.first_name + " " + @user.last_name %></h3>
+  <img src="<%= @user.profile_picture %>" class="img-responsive" align="middle">
+  <a href="<%= @user.linkedin_url %>">
+    <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_liprofile_blue_80x15.png" class="img-responsive" align="middle">
+  </a>
 </div>
 
 <div class="row">
-  <div class="col-md-12 mb-2">
+  <div class="col-md-10 col-md-offset-1 centered">
     <dl class="dl-horizontal">
-      <dt>Profile picture</dt>
-      <dd><img src="<%= @user.profile_picture %>" class="img-responsive"></dd>
 
-      <dt>First name</dt>
-      <dd><%= @user.first_name %></dd>
-
-      <dt>Last name</dt>
-      <dd><%= @user.last_name %></dd>
-
-      <dt>Title</dt>
-      <dd><%= @user.title %></dd>
-
-      <dt>Company</dt>
-      <dd><%= @user.company %></dd>
+      <dt>Current Position</dt>
+      <dd><%= @user.title + " at " + @user.company %></dd>
 
       <dt>Summary</dt>
       <dd><%= @user.summary %></dd>
@@ -26,44 +19,27 @@
       <dt>Interests</dt>
       <dd><%= @user.interests %></dd>
 
-      <dt>
-      <a href="<%= @user.linkedin_url %>">
-        <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_liprofile_blue_80x15.png" class="img-responsive">
-      </a>
-      </dt>
-
     </dl>
 
-    <div class="btn-group btn-group-justified">
-      <a href="/users" class="btn btn-primary">
-        Back
-      </a>
-    </div>
   </div>
 </div>
 
-<!-- A User has many events -->
+<!-- A User has many hosted events -->
 
 <div class="row">
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
-        Hosted Events
+        <%= @user.first_name + " has hosted " + @hosted_count.to_s + " BrownBag event(s) " %>
       </li>
 
       <% @user.events.each do |event| %>
         <li class="list-group-item">
           <a href="/events/<%= event.id %>">
-            <%= event.user_id %>
+            <%= event.title + " at " + event.restaurant.name + " on " + event.event_date.to_s %>
           </a>
           <div class="btn-group btn-group-xs pull-right">
-            <a href="/events/<%= event.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
             <%if current_user == event.user %>
-              <a href="/events/<%= event.id %>/edit" class="btn btn-warning">
-                <i class="fa fa-edit"></i>
-              </a>
               <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">
                 <i class="fa fa-trash-o"></i>
               </a>
@@ -81,35 +57,40 @@
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
-        Attended Events
+        <%= @user.first_name + " has attended " + @attended_count.to_s + " BrownBag event(s) " %>
       </li>
 
       <% @user.attended_events.each do |event| %>
+      <% if event.user_id != @user.id %>
         <li class="list-group-item">
           <a href="/events/<%= event.id %>">
-            <%= event.user_id %>
+            <%= event.title + " at " + event.restaurant + " on " + event.event_date %>
           </a>
           <div class="btn-group btn-group-xs pull-right">
             <a href="/events/<%= event.id %>" class="btn btn-primary">
               <i class="fa fa-search-plus"></i>
             </a>
             <%if current_user == event.user %>
-              <a href="/events/<%= event.id %>/edit" class="btn btn-warning">
-                <i class="fa fa-edit"></i>
-              </a>
               <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">
                 <i class="fa fa-trash-o"></i>
               </a>
             <% end %>
           </div>
         </li>
+        <% end %>
       <% end %>
     </ul>
   </div>
 </div>
 
-<!-- A User has many reservations -->
+<div class="btn-group btn-group-justified">
+  <a href="/users" class="btn btn-primary">
+    Back to Browsing the BrownBag Network
+  </a>
+</div>
 
+<!-- A User has many connections (people who one has had an event with. WORK IN PROGRESS, NOT A PRIORITY USER STORY) -->
+<!--
 <div class="row">
   <div class="col-md-12">
     <ul class="list-group">
@@ -139,4 +120,4 @@
       <% end %>
     </ul>
   </div>
-</div>
+</div> -->
