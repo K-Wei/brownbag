@@ -73,7 +73,7 @@
           });
       </script>
 
-        
+
 
       <%= f.submit :class => "btn btn-primary btn-block mb-1" %>
 
@@ -100,26 +100,27 @@
       <tr>
         <th>Name</th>
         <th>Location</th>
-        <th>Yelp url</th>
         <th>Price</th>
         <th>Categories</th>
-        <th>Picture url</th>
-        <th>Actions</th>
       </tr>
 
       <% @restaurants.each do |restaurant| %>
       <tr>
         <td><%= restaurant.name %></td>
         <td><%= restaurant.location %></td>
-        <td><%= restaurant.yelp_url %></td>
         <td><%= restaurant.price %></td>
         <td><%= restaurant.categories %></td>
-        <td><%= restaurant.picture_url %></td>
         <td>
+          <a href="<%= restaurant.yelp_url %>" style="display:block; text-align:center; text-align:-webkit-center">
+            <img src="https://c1.staticflickr.com/6/5180/5540543936_423e37dae4_b.jpg" class="img-responsive" height="40" width="40">
+          </a>
+        </td>
+
+        <!-- <td>
           <a href="/restaurants/<%= restaurant.id %>" class="btn btn-primary">Show</a>
           <a href="/restaurants/<%= restaurant.id %>/edit" class="btn btn-warning">Edit</a>
           <a href="/delete_restaurant/<%= restaurant.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-        </td>
+        </td> -->
       </tr>
       <% end %>
     </table>
