@@ -29,6 +29,8 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new
 
+    # GET https://api.yelp.com/v3/autocomplete?text=blah&latitude=
+
     @restaurant.name = params[:name]
     @restaurant.location = params[:location]
     @restaurant.yelp_url = params[:yelp_url]
