@@ -1,28 +1,40 @@
 class ReservationsController < ApplicationController
+
+  before_action :restrict_authuser, :only => [:edit, :update, :destroy, :show]
+
   def index
     @user = current_user
 
-    @q = Reservation.ransack(params[:q])
+    # @q = Reservation.ransack(params[:q])
 
-    # get list of public requests the current user has recieved (for self-hosted event)
-    @recieved_pubrequests = Reservation.where(:event_id => Event.where(:user_id => current_user.id), :host_approval => false, :guest_approval => true, :public_request => true, :declined => false)
+    @reservations = Reservation.where(:declined => false)
 
-    # get list of reservations the current user has recieved (for non-hosted event)
-    @recieved_privinvites = Reservation.where(:user_id => current_user.id, :host_approval => true, :guest_approval => false, :public_request => false, :declined => false)
+    reservationquery1 = @reservations.where(:event_id => Event.where(:user_id => current_user.id).pluck(:id))
+    reservationquery2 = @reservations.where(:user_id => current_user.id)
 
-    # get list of public requests the current user has sent (for non=hosted event)
-    @pending_pubrequests = Reservation.where(:user_id => current_user.id, :host_approval => false, :guest_approval => true, :public_request => true, :declined => false)
+    # get list of public requests the current user has recieved and needs to approve (for self-hosted event)
+    @recieved_pubrequests = reservationquery1.where(:host_approval => false, :guest_approval => true, :public_request => true)
 
-    # get list of reservations the current user has sent (for self-hosted event)
-    @pending_privreservations = Reservation.where(:event_id => Event.where(:user_id => current_user.id), :host_approval => true, :guest_approval => false, :public_request => false, :declined => false)
+    # get list of reservations the current user has recieved and needs to accept (for non-hosted event)
+    @recieved_privinvites = reservationquery2.where(:host_approval => true, :guest_approval => false, :public_request => false)
 
-    @reservations = @q.result(:distinct => true).includes(:user, :event).page(params[:page]).per(10)
+    @sent_pending = @reservataions.where(:confirmed => false)
+
+    # Not sure whether I want to keep these or not. Saving here just in case
+    # # get list of public requests the current user has sent and are pending (for non=hosted event)
+    # @pending_pubrequests = reservationquery2.where(:host_approval => false, :guest_approval => true, :public_request => true)
+    #
+    # # get list of reservations the current user has sent and are pending (for self-hosted event)
+    # @pending_privreservations = reservationquery1.where(:host_approval => true, :guest_approval => false, :public_request => false)
+
+    @attendances = Reservation.where(:confirmed => true)
+
+    # @reservations = @q.result(:distinct => true).includes(:user, :event).page(params[:page]).per(10)
 
     render("reservations/index.html.erb")
   end
 
   def show
-    @reservation = Reservation.find(params[:id])
 
     render("reservations/show.html.erb")
   end
@@ -62,13 +74,12 @@ class ReservationsController < ApplicationController
   end
 
   def edit
-    @reservation = Reservation.find(params[:id])
+
 
     render("reservations/edit.html.erb")
   end
 
   def update
-    @reservation = Reservation.find(params[:id])
 
     @reservation.user_id = params[:user_id]
     @reservation.event_id = params[:event_id]
@@ -96,7 +107,6 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
-    @reservation = Reservation.find(params[:id])
 
     @reservation.destroy
 
@@ -106,4 +116,15 @@ class ReservationsController < ApplicationController
       redirect_back(:fallback_location => "/", :notice => "Reservation deleted.")
     end
   end
+
+  def restrict_authuser
+
+    @reservation = Reservation.find(params[:id])
+
+    if current_user != @reservation.user or current_user != @reservation.event
+        redirect_to("/", :notice => "Nice try.")
+    end
+
+  end
+
 end
