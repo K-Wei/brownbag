@@ -3,181 +3,161 @@
     Reservations
     <a href="/reservations/new" class="btn btn-lg btn-success">New Reservation</a>
   </h1>
-</div><div class="row mb-1">
+</div>
+
+<div class="row">
   <div class="col-md-12">
-    <%= search_form_for @q, :class => collapse_search_form, :id => "reservations_filters" do |f| %>
-      <p class="lead">Narrow results:</p>
+    <h2> Requests to Join Your Event(s) </h2>
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>User</th>
+        <th>Event</th>
+        <th>Title</th>
+        <th>Notes</th>
+      </tr>
 
-        <div class="form-group">
-    <%= f.label :description_cont, "Description contains" %>
-    <%= f.text_field :description_cont, :class => "form-control", :placeholder => "Description contains" %>
-  </div>
-
-<div class="form-group">
-    <%= f.label :title_cont, "Title contains" %>
-    <%= f.text_field :title_cont, :class => "form-control", :placeholder => "Title contains" %>
-  </div>
-
-<div class="form-group">
-    <%= f.label :public_request_eq, "Public request" %>
-    <div>
-      <label class="radio-inline">
-        <%= f.radio_button :public_request_eq, "1", checked: ((params[:q] && params[:q][:public_request_eq]) == "1" ? "checked" : "") %> Yes
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :public_request_eq, "0", checked: ((params[:q] && params[:q][:public_request_eq]) == "0" ? "checked" : "")%> No
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :public_request_eq, ""%> Either
-      </label>
-    </div>
-  </div>
-
-<div class="form-group">
-    <%= f.label :guest_approval_eq, "Guest approval" %>
-    <div>
-      <label class="radio-inline">
-        <%= f.radio_button :guest_approval_eq, "1", checked: ((params[:q] && params[:q][:guest_approval_eq]) == "1" ? "checked" : "") %> Yes
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :guest_approval_eq, "0", checked: ((params[:q] && params[:q][:guest_approval_eq]) == "0" ? "checked" : "")%> No
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :guest_approval_eq, ""%> Either
-      </label>
-    </div>
-  </div>
-
-<div class="form-group">
-    <%= f.label :host_approval_eq, "Host approval" %>
-    <div>
-      <label class="radio-inline">
-        <%= f.radio_button :host_approval_eq, "1", checked: ((params[:q] && params[:q][:host_approval_eq]) == "1" ? "checked" : "") %> Yes
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :host_approval_eq, "0", checked: ((params[:q] && params[:q][:host_approval_eq]) == "0" ? "checked" : "")%> No
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :host_approval_eq, ""%> Either
-      </label>
-    </div>
-  </div>
-
-<div class="form-group">
-    <%= f.label :confirmed_eq, "Confirmed reservation" %>
-    <div>
-      <label class="radio-inline">
-        <%= f.radio_button :confirmed_eq, "1", checked: ((params[:q] && params[:q][:confirmed_eq]) == "1" ? "checked" : "") %> Yes
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :confirmed_eq, "0", checked: ((params[:q] && params[:q][:confirmed_eq]) == "0" ? "checked" : "")%> No
-      </label>
-      <label class="radio-inline">
-        <%= f.radio_button :confirmed_eq, ""%> Either
-      </label>
-    </div>
-  </div>
-
-<div class="form-group">
-          <%= f.label :created_at, "Created at" %>
-          <div class="row">
-            <div class='col-md-6 mb-1'>
-              <div class='input-group date' id='created_atgteqPicker'>
-                  <%= f.text_field :created_at_gteq, :class => "form-control", :placeholder => "Created at greater than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-
-            <div class='col-md-6'>
-              <div class='input-group date' id='created_atlteqPicker'>
-                  <%= f.text_field :created_at_lteq, :class => "form-control", :placeholder => "Created at less than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-          </div>
-      </div>
-      <script type="text/javascript">
-          $(function () {
-              $('#created_atgteqPicker').datetimepicker({
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atlteqPicker').datetimepicker({
-                  useCurrent: false,
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atgteqPicker').on("dp.change", function (e) {
-                  $('#created_atlteqPicker').data("DateTimePicker").minDate(e.date);
-              });
-              $('#created_atlteqPicker').on("dp.change", function (e) {
-                  $('#created_atgteqPicker').data("DateTimePicker").maxDate(e.date);
-              });
-          });
-      </script>
-
-        <div class="form-group">
-      <%= f.label :user_email_cont, "User email contains" %>
-      <%= f.text_field :user_email_cont, :class => "form-control", :placeholder => "User email contains" %>
-    </div>
-
-      <%= f.submit :class => "btn btn-primary btn-block mb-1" %>
-
-      <a href="/reservations" class="btn btn-default btn-block mb-1">Clear filters</a>
-    <% end %>
-    <a class="btn btn-default btn-block mb-1" data-toggle="collapse" href="#reservations_filters">
-      Show Filters
-    </a>
+      <% @recieved_pubrequests.each do |reservation| %>
+      <tr>
+        <td>
+            <a href="/users/<%= reservation.user.id %>">
+              <%= reservation.user.first_name + " " + reservation.user.last_name %>
+            </a>
+        </td>
+        <td>
+            <a href="/events/<%= reservation.event.id %>">
+              <%= reservation.event.title + " (" + reservation.event.event_date +") " %>
+            </a>
+        </td>
+        <td><%= reservation.title %></td>
+        <td> <%= reservation.user.first_name + " " + reservation.user.last_name %> requested to join your event </td>
+        <td>
+          <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Details</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
   </div>
 </div>
 
 <div class="row">
   <div class="col-md-12">
+    <h2> Invitations to Join Event(s) <h2>
     <table class="table table-striped table-hover">
       <tr>
-        <th>User</th>
+        <th>Invited By</th>
         <th>Event</th>
-        <th>Confirmed reservation</th>
-        <th>Host approval</th>
-        <th>Guest approval</th>
-        <th>Public request</th>
         <th>Title</th>
-        <th>Description</th>
-        <th>Actions</th>
+        <th>Notes</th>
       </tr>
 
-      <% @reservations.each do |reservation| %>
+      <% @recieved_privinvites.each do |reservation| %>
       <tr>
         <td>
-          <% if reservation.user.present? %>
-            <a href="/users/<%= reservation.user.id %>">
-              <%= reservation.user.email %>
+            <a href="/users/<%= reservation.event.user.id %>">
+              <%= reservation.event.host %>
             </a>
-          <% end %>
         </td>
         <td>
-          <% if reservation.event.present? %>
             <a href="/events/<%= reservation.event.id %>">
-              <%= reservation.event.user_id %>
+              <%= reservation.event.title + " (" + reservation.event.event_date +") " %>
             </a>
-          <% end %>
         </td>
-        <td><%= reservation.confirmed %></td>
-        <td><%= reservation.host_approval %></td>
-        <td><%= reservation.guest_approval %></td>
-        <td><%= reservation.public_request %></td>
         <td><%= reservation.title %></td>
-        <td><%= reservation.description %></td>
+        <td> <%= reservation.event.host %> invited you to join their event </td>
         <td>
-          <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Show</a>
-          <a href="/reservations/<%= reservation.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_reservation/<%= reservation.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Details</a>
         </td>
       </tr>
       <% end %>
     </table>
-    <%= paginate @reservations, theme: 'twitter-bootstrap-4' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2> Pending Reservations <h2>
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Recipient<th>
+        <th>Host</th>
+        <th>Event</th>
+        <th>Title</th>
+        <th>Notes</th>
+      </tr>
+
+      <% @sent_pending.each do |reservation| %>
+      <tr>
+        <td>
+        <a href="/users/<%= reservation.user.id %>">
+          <%= reservation.user.first_name + " " + reservation.user.last_name %>
+        </a>
+        </td>
+        <td>
+            <a href="/users/<%= reservation.event.user.id %>">
+              <%= reservation.event.host %>
+            </a>
+        </td>
+        <td>
+            <a href="/events/<%= reservation.event.id %>">
+              <%= reservation.event.title + " (" + reservation.event.event_date +") " %>
+            </a>
+        </td>
+        <td><%= reservation.title %></td>
+        <td>
+          <% if reservation.host_approval == false and reservation.guest_approval == true and reservation.public_request == true %>
+          You requested to join this event on <%= reservation.created_at %>.
+          <% elsif reservation.host_approval == true and reservation.guest_approval == false and reservation.public_request == false %>
+          You invited <%= reservation.user.first_name + " " + reservation.user.last_name %> to join this event on <%= reservation.created_at %>.
+          <% end %>
+        </td>
+        <td>
+          <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Details</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2> My Confirmed Reservations <h2>
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Host</th>
+        <th>Event</th>
+        <th>Restaurant</th>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Note</th>
+      </tr>
+
+      <% @attendances.each do |reservation| %>
+      <tr>
+        <td>
+            <a href="/users/<%= reservation.user.id %>">
+              <%= reservation.event.host %>
+            </a>
+        </td>
+        <td>
+            <a href="/events/<%= reservation.event.id %>">
+              <%= reservation.event.title %>
+            </a>
+        </td>
+        <td>
+            <a href="/restaurants/<%= reservation.restaurant.id %>">
+              <%= reservation.restaurant.name %>
+            </a>
+        </td>
+        <td><%= reservation.event.event_date %></td>
+        <td><%= reservation.title %></td>
+        <td> You invited confirmed this reservation at <%= reservation.updated_at %>.</td>
+        <td>
+          <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Details</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+    <%#= paginate @reservations, theme: 'twitter-bootstrap-4' %>
   </div>
 </div>
