@@ -1,5 +1,12 @@
 class Restaurant < ApplicationRecord
   before_validation :geocode_location
+  before_save :capitalize_restaurant_details
+
+  def capitalize_restaurant_details
+    self.name = name.camelcase
+    self.location = location.camelcase
+    self.categories = categories.camelcase
+  end
 
   def geocode_location
     if self.location.present?
@@ -26,6 +33,11 @@ class Restaurant < ApplicationRecord
   # Indirect associations
 
   # Validations
+  validates :name, :presence => true, :uniqueness => true
+  validates :location, format: { with: /\d*\s\w*(.+),\s\w*,\s\w\w\s\w*/}
+  validates :yelp_url, format: { with: /https:\/\/www.yelp.com\/biz\/\S*/}
+  validates :price, :presence => true, format: { with: /[$]/}
+  validates :categories, :presence => true
 
   def name_with_address
     return self.name + " (" + self.location + ")"
