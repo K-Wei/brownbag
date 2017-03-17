@@ -1,39 +1,52 @@
 <div class="page-header">
-  <h3>Reservation #<%= @reservation.id %></h3>
+  <h3>
+    <a href="/users/<%= @reservation.user.id %>">
+      <%= @reservation.user.first_name + " " + @reservation.user.last_name + "'s" %>
+    </a>
+    Reservation for
+    <a href="/events/<%= @reservation.event_id %>">
+      <%= @reservation.event.title %>
+    </a>
+  </h3>
 </div>
 
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
-      <dt>User</dt>
+      <dt>Event Host</dt>
       <dd>
-        <% if @reservation.user.present? %>
-          <a href="/users/<%= @reservation.user_id %>">
-            <%= @reservation.user.email %>
-          </a>
+        <% if @reservation.user == current_user %>
+        <a href="/users/<%= @reservation.user_id %>">
+          <%= @reservation.event.host %> (you!)
+        </a>
+        <% else %>
+        <a href="/users/<%= @reservation.user_id %>">
+          <%= @reservation.event.host %>
+        </a>
         <% end %>
       </dd>
 
-      <dt>Event</dt>
+      <dt>Restaurant</dt>
       <dd>
-        <% if @reservation.event.present? %>
-          <a href="/events/<%= @reservation.event_id %>">
-            <%= @reservation.event.user_id %>
-          </a>
-        <% end %>
+        <a href="/restaurants/<%= @reservation.event.restaurant %>">
+          <%= @reservation.event.restaurant.name %>
+        </a>
       </dd>
 
-      <dt>Confirmed reservation</dt>
+      <dt>Location</dt>
+      <dd><%= @reservation.event.restaurant.location %></dd>
+
+      <dt>Date</dt>
+      <dd><%= @reservation.event.event_date.strftime("%D") %></dd>
+
+      <dt>Start Time</dt>
+      <dd><%= @reservation.event.start_time.strftime("%l:%M %P") %></dd>
+
+      <dt>End Time</dt>
+      <dd><%= @reservation.event.end_time.strftime("%l:%M %P") %></dd>
+
+      <dt>Confirmed?</dt>
       <dd><%= @reservation.confirmed %></dd>
-
-      <dt>Host approval</dt>
-      <dd><%= @reservation.host_approval %></dd>
-
-      <dt>Guest approval</dt>
-      <dd><%= @reservation.guest_approval %></dd>
-
-      <dt>Public request</dt>
-      <dd><%= @reservation.public_request %></dd>
 
       <dt>Title</dt>
       <dd><%= @reservation.title %></dd>
@@ -41,18 +54,78 @@
       <dt>Description</dt>
       <dd><%= @reservation.description %></dd>
 
+      <dt>Notes</dt>
+      <dd>
+
+        <% if @reservation.public_request == true %>
+        You requested to join this event on <%= @reservation.created_at.strftime("%D") %>
+        <% end %>
+
+        <% if @reservation.host_approval == true and @reservation.confirmed == false%>
+        The host has invited you to a event!
+        <% end %>
+
+        <% if @reservation.confirmed == true %>
+        You confirmed this reservation <%= @reservation.updated_at.strftime("%D") %>
+        <% end %>
+
+        <% if @reservation.declined == true %>
+        You declined this reservation <%= @reservation.updated_at.strftime("%D") %>
+        <% end %>
+
+      </dd>
     </dl>
 
     <div class="btn-group btn-group-justified">
-      <a href="/reservations" class="btn btn-primary">
+      <a href="/restaurants" class="btn btn-primary">
         Back
       </a>
-      <a href="/reservations/<%= @reservation.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
+      <% if current_user == @reservation.user %>
       <a href="/delete_reservation/<%= @reservation.id %>" class="btn btn-danger" rel="nofollow">
         Delete
       </a>
+      <% end %>
+    </div>
+
+    <% if @reservation.confirmed == false and current_user == @reservation.event.user %>
+    <!-- <h1> You must Approve or Deny this Reservation </h1> -->
+    <div class="btn-group btn-group-justified">
+
+      <form action="/update_reservation/<%= @reservation.id %>" method="post">
+        <!-- Hidden input for authenticity token to protect from forgery -->
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+        <!-- Label and input for host_approval -->
+        <!-- <% if @reservation.host_approval == false %>
+        <input type="hidden" name="host_approval" value = true>
+        <input type="hidden" name="confirmed" value = true>
+        <input type="hidden" name="declined" value = false>
+        <button class="btn btn-primary">
+          Approve
+        </button>
+        <input type="hidden" name="declined" value = true>
+        <button class="btn btn-danger" rel="nofollow">
+          Deny
+        </button>
+        <% end %> -->
+
+        <!-- Label and input for guest_approval -->
+        <!-- <% if @reservation.guest_approval == false %>
+        <input type="hidden" name="user_id" value = "<% @reservation.event.user.id %>">
+        <input type="hidden" name="guest_approval" value = true>
+        <input type="hidden" name="confirmed" value = true>
+        <button class="btn btn-primary">
+          Approve
+        </button>
+        <input type="hidden" name="declined" value = true>
+        <button class="btn btn-danger" rel="nofollow">
+          Deny
+        </button>
+        <% end %> -->
+      </form>
+
+      <% end %>
+
     </div>
   </div>
 </div>

@@ -64,7 +64,7 @@
       <% if event.user_id != @user.id %>
         <li class="list-group-item">
           <a href="/events/<%= event.id %>">
-            <%= event.title + " at " + event.restaurant + " on " + event.event_date.strftime("%D") %>
+            <%= event.title + " at " + event.restaurant.name + " on " + event.event_date.strftime("%D") %>
           </a>
           <div class="btn-group btn-group-xs pull-right">
             <a href="/events/<%= event.id %>" class="btn btn-primary">

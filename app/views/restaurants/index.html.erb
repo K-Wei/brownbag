@@ -106,7 +106,11 @@
 
       <% @restaurants.each do |restaurant| %>
       <tr>
-        <td><%= restaurant.name %></td>
+        <td>
+          <a href="/restaurants/<%= restaurant.id %>">
+            <%= restaurant.name %>
+          </a>
+        </td>
         <td><%= restaurant.location %></td>
         <td><%= restaurant.price %></td>
         <td><%= restaurant.categories %></td>

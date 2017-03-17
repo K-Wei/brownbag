@@ -2,10 +2,8 @@ class Event < ApplicationRecord
 
   before_save :capitalize_event_details
 
-  def capitalize_restaurant_details
-    self.title = title.camelcase
-    self.location = location.camelcase
-    self.categories = categories.camelcase
+  def capitalize_event_details
+    self.title = self.title.camelcase
   end
 
   # Direct associations

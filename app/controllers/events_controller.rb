@@ -41,8 +41,8 @@ class EventsController < ApplicationController
     @event.title = params[:title]
     @event.description = params[:description]
     @event.event_date = Chronic.parse(params[:event_date])
-    @event.start_time = params[:start_time]
-    @event.end_time = params[:end_time]
+    @event.start_time = Chronic.parse(params[:start_time]).strftime("%l:%M %P")
+    @event.end_time = Chronic.parse(params[:end_time]).strftime("%l:%M %P")
     @event.available = params[:available]
     @event.capacity_limit = params[:capacity_limit]
     @event.intent = params[:intent]
@@ -58,7 +58,7 @@ class EventsController < ApplicationController
       @reservation.host_approval = true
       @reservation.guest_approval = true
       @reservation.public_request = false
-      @reservation.title = "You are hosting " + @event.title.to_s + " on " + @event.event_date.to_s + " from " + @event.start_time.to_s + " to " + @event.end_time.to_s
+      @reservation.title = "You are hosting " + @event.title.to_s + " on " + @event.event_date.strftime("%D").to_s + " from " + @event.start_time.strftime("%l:%M %P").to_s + " to " + @event.end_time.strftime("%l:%M %P").to_s
       @reservation.description = @reservation.title.to_s + ". This reservation is automatically generated for you when you choose to host an event"
       @reservation.created_at = @event.created_at
       @reservation.updated_at = @event.updated_at
@@ -90,9 +90,9 @@ class EventsController < ApplicationController
     @event.host = params[:host]
     @event.title = params[:title]
     @event.description = params[:description]
-    @event.event_date = params[:event_date]
-    @event.start_time = params[:start_time]
-    @event.end_time = params[:end_time]
+    @event.event_date = Chronic.parse(params[:event_date])
+    @event.start_time = Chronic.parse(params[:start_time]).strftime("%l:%M %P")
+    @event.end_time = Chronic.parse(params[:end_time]).strftime("%l:%M %P")
     @event.available = params[:available]
     @event.capacity_limit = params[:capacity_limit]
     @event.intent = params[:intent]

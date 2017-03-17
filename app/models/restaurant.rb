@@ -33,7 +33,7 @@ class Restaurant < ApplicationRecord
   # Indirect associations
 
   # Validations
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true
   validates :location, format: { with: /\d*\s\w*(.+),\s\w*,\s\w\w\s\w*/}
   validates :yelp_url, format: { with: /https:\/\/www.yelp.com\/biz\/\S*/}
   validates :price, :presence => true, format: { with: /[$]/}

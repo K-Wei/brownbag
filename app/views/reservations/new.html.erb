@@ -19,13 +19,14 @@
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
       <!-- Label and input for user_id -->
-      <div class="form-group">
+      <input type="hidden" name="user_id" value = "<% current_user.id %>">
+      <!-- <div class="form-group">
         <label for="user_id" class="control-label">
           User
         </label>
 
         <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email, @reservation.user_id), :class => "form-control") %>
-      </div>
+      </div> -->
 
       <!-- Label and input for event_id -->
       <div class="form-group">
@@ -33,40 +34,20 @@
           Event
         </label>
 
-        <%= select_tag(:event_id, options_from_collection_for_select(Event.all, :id, :user_id, @reservation.event_id), :class => "form-control") %>
+        <%= select_tag(:event_id, options_from_collection_for_select(Event.all, :id, :title, @reservation.event_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for confirmed -->
-      <div class="checkbox">
-        <label for="confirmed">
-          <input type="checkbox" id="confirmed" name="confirmed" value="1" <%= "checked" if @reservation.confirmed %>>
-          Confirmed reservation
-        </label>
-      </div>
+      <input type="hidden" name="confirmed" value = false >
 
       <!-- Label and input for host_approval -->
-      <div class="checkbox">
-        <label for="host_approval">
-          <input type="checkbox" id="host_approval" name="host_approval" value="1" <%= "checked" if @reservation.host_approval %>>
-          Host approval
-        </label>
-      </div>
+      <input type="hidden" name="host_approval" value = false >
 
       <!-- Label and input for guest_approval -->
-      <div class="checkbox">
-        <label for="guest_approval">
-          <input type="checkbox" id="guest_approval" name="guest_approval" value="1" <%= "checked" if @reservation.guest_approval %>>
-          Guest approval
-        </label>
-      </div>
+      <input type="hidden" name="guest_approval" value = true >
 
       <!-- Label and input for public_request -->
-      <div class="checkbox">
-        <label for="public_request">
-          <input type="checkbox" id="public_request" name="public_request" value="1" <%= "checked" if @reservation.public_request %>>
-          Public request
-        </label>
-      </div>
+      <input type="hidden" name="public_request" value = true >
 
       <!-- Label and input for title -->
       <div class="form-group">

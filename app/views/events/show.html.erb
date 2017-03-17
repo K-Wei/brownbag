@@ -57,63 +57,73 @@
 
 <div class="row">
   <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Write a comment (publically visible)
-      </li>
+    <div class="panel panel-default">
 
-      <% @event.comments.each do |comment| %>
-      <li class="list-group-item">
-        <a href="/comments/<%= comment.id %>">
-          <%= comment.body %>
-        </a>
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Comments
+        </h3>
+      </div>
 
-        <% if current_user == comment.user %>
-        <div class="btn-group btn-group-xs pull-right">
-          <a href="/comments/<%= comment.id %>/edit" class="btn btn-warning">
-            <i class="fa fa-edit"></i>
-          </a>
-          <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
-            <i class="fa fa-trash-o"></i>
-          </a>
-        </div>
-        <% elsif current_user == @event.user %>
-        <div class="btn-group btn-group-xs pull-right">
-          <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
-            <i class="fa fa-trash-o"></i>
-          </a>
-        </div>
-        <% end %>
+      <div class="panel-body">
+        <% @event.comments.each do |comment| %>
+        <ul class="media-list">
+          <li class="media">
+            <div class="media-body">
+              <h6 class="media-heading">
+                <a href="/users/<%= comment.user_id %>"><%= comment.user.first_name + " " + comment.user.last_name %></a>
+                <small>
+                  Over <%= time_ago_in_words(comment.created_at) %> ago
+                </small>
+              </h6>
 
-      </li>
-      <% end %>
+              <p> <%= comment.body %></p>
+            </div>
+            <% if current_user == comment.user %>
+            <div class="btn-group btn-group-xs pull-right">
+              <a href="/comments/<%= comment.id %>/edit" class="btn btn-warning" rel="nofollow">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
+                <i class="fa fa-trash-o"></i>
+              </a>
+            </div>
+            <% end %>
+          </li>
+          <% end %>
 
-      <li class="list-group-item">
-        <form action="/create_comment" method="post">
-          <!-- Hidden input for authenticity token to protect from forgery -->
-          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+          <ul class="media">
+            <form action="/create_comment" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-          <!-- Label and input for user_id -->
-          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+              <!-- Label and input for user_id -->
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
 
-          <!-- Label and input for event_id -->
-          <input type="hidden" name="event_id" value="<%= @event.id %>">
+              <!-- Label and input for event_id -->
+              <input type="hidden" name="event_id" value="<%= @event.id %>">
 
-          <!-- Label and input for body -->
-          <div class="form-group">
-            <label for="body" class="control-label">
-              Body
-            </label>
+              <!-- Label and input for body -->
+              <div class="form-group">
 
-            <textarea id="body" name="body" placeholder="Body" class="form-control" rows="3"></textarea>
-          </div>
+                <label for="body" class="sr-only"></label>
 
-          <button class="btn btn-block btn-success">
-            Create Comment
-          </button>
-        </form>
-      </li>
-    </ul>
+                <div class="input-group">
+                  <input type="text" id="body" name="body" class="form-control" placeholder="Add a comment..." required>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                      <i class="fa fa-commenting-o"></i>
+                    </button>
+                  </span>
+                </div>
+
+              </div>
+
+            </form>
+          </ul>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -140,7 +150,7 @@
           <% end %>
           <% if reservation.user == current_user or current_user == @event.user %>
           <div class="btn-group btn-group-xs pull-right">
-            <a href="/events/<%= event.id %>" class="btn btn-primary">Details</a>
+            <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Details</a>
           </div>
           <% end %>
         </li>
@@ -155,7 +165,11 @@
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
-        Create a Reservation
+        <% if current_user == @event.user %>
+        Invite a Guest
+        <% else %>
+        Request a Reservation
+        <% end %>
       </li>
 
       <li class="list-group-item">
@@ -164,21 +178,26 @@
           <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
           <!-- Label and input for user_id -->
-          <div class="form-group">
+          <!-- <div class="form-group"> -->
 
-            <% if current_user == @event.user %>
+
+
+            <!-- <% if current_user == @event.user %>
             <label for="user_id" class="control-label">
               Reservation for:
             </label>
-            <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email), :class => "form-control") %>
+            <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :full_name), :class => "form-control") %>
             <% else %>
             <label for="user_id" class="control-label">
               Reservation for: <%= current_user.first_name + " " + current_user.last_name %>
             </label>
-            <% end %>
+            <input type="hidden" name="user_id" value="<%= current_user.id %>">
+            <% end %> -->
 
-          </div>
+          <!-- </div> -->
 
+
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
           <!-- Label and input for event_id -->
           <input type="hidden" name="event_id" value="<%= @event.id %>">
 
@@ -236,39 +255,39 @@
 <div class="row">
   <div class="col-md-12">
     <h2> Event is currently full, check back later or message the host for more details <h2>
+    </div>
   </div>
-</div>
-<% end %>
+  <% end %>
 
 
-<!-- A Event has many attendees -->
-<!-- not necessary, but keeping just in case -->
-<!-- <div class="row">
+  <!-- A Event has many attendees -->
+  <!-- not necessary, but keeping just in case -->
+  <!-- <div class="row">
   <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Attendees
-      </li>
+  <ul class="list-group">
+  <li class="list-group-item list-group-item-info">
+  Attendees
+</li>
 
-      <% @event.attendees.each do |user| %>
-      <li class="list-group-item">
-        <a href="/users/<%= user.id %>">
-          <%= user.email %>
-        </a>
-        <div class="btn-group btn-group-xs pull-right">
-          <a href="/users/<%= user.id %>" class="btn btn-primary">
-            <i class="fa fa-search-plus"></i>
-          </a>
-          <a href="/users/<%= user.id %>/edit" class="btn btn-warning">
-            <i class="fa fa-edit"></i>
-          </a>
-          <a href="/delete_user/<%= user.id %>" class="btn btn-danger" rel="nofollow">
-            <i class="fa fa-trash-o"></i>
-          </a>
-        </div>
-      </li>
-      <% end %>
-    </ul>
-  </div>
+<% @event.attendees.each do |user| %>
+<li class="list-group-item">
+<a href="/users/<%= user.id %>">
+<%= user.email %>
+</a>
+<div class="btn-group btn-group-xs pull-right">
+<a href="/users/<%= user.id %>" class="btn btn-primary">
+<i class="fa fa-search-plus"></i>
+</a>
+<a href="/users/<%= user.id %>/edit" class="btn btn-warning">
+<i class="fa fa-edit"></i>
+</a>
+<a href="/delete_user/<%= user.id %>" class="btn btn-danger" rel="nofollow">
+<i class="fa fa-trash-o"></i>
+</a>
+</div>
+</li>
+<% end %>
+</ul>
+</div>
 </div>
 <% end %> -->

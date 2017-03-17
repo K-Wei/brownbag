@@ -1,6 +1,6 @@
 class ReservationsController < ApplicationController
 
-  before_action :restrict_authuser, :only => [:edit, :update, :destroy, :show]
+  # before_action :restrict_authuser, :only => [:edit, :update, :destroy, :show]
 
   def index
     @user = current_user
@@ -18,7 +18,7 @@ class ReservationsController < ApplicationController
     # get list of reservations the current user has recieved and needs to accept (for non-hosted event)
     @recieved_privinvites = reservationquery2.where(:host_approval => true, :guest_approval => false, :public_request => false)
 
-    @sent_pending = @reservataions.where(:confirmed => false)
+    @sent_pending = @reservations
 
     # Not sure whether I want to keep these or not. Saving here just in case
     # # get list of public requests the current user has sent and are pending (for non=hosted event)
@@ -27,7 +27,7 @@ class ReservationsController < ApplicationController
     # # get list of reservations the current user has sent and are pending (for self-hosted event)
     # @pending_privreservations = reservationquery1.where(:host_approval => true, :guest_approval => false, :public_request => false)
 
-    @attendances = Reservation.where(:confirmed => true)
+    @attendances = @reservations.where(:confirmed => true)
 
     # @reservations = @q.result(:distinct => true).includes(:user, :event).page(params[:page]).per(10)
 
@@ -35,6 +35,7 @@ class ReservationsController < ApplicationController
   end
 
   def show
+    @reservation = Reservation.find(params[:id])
 
     render("reservations/show.html.erb")
   end
@@ -81,14 +82,19 @@ class ReservationsController < ApplicationController
 
   def update
 
-    @reservation.user_id = params[:user_id]
-    @reservation.event_id = params[:event_id]
-    @reservation.confirmed = params[:confirmed]
-    @reservation.host_approval = params[:host_approval]
-    @reservation.guest_approval = params[:guest_approval]
-    @reservation.public_request = params[:public_request]
-    @reservation.title = params[:title]
-    @reservation.description = params[:description]
+    @reservation = Reservation.find(params[:id])
+
+    @reservation.update_attribute(:host_approval => params[:host_approval], :guest_approval => params[:guest_approval], :declined => params[:declined])
+
+    # @reservation.user_id = params[:user_id]
+    # @reservation.event_id = params[:event_id]
+    # @reservation.confirmed = params[:confirmed]
+    # @reservation.host_approval = params[:host_approval]
+    # @reservation.guest_approval = params[:guest_approval]
+    # @reservation.public_request = params[:public_request]
+    # @reservation.declined = params[:declined]
+    # @reservation.title = params[:title]
+    # @reservation.description = params[:description]
 
     save_status = @reservation.save
 
@@ -108,6 +114,8 @@ class ReservationsController < ApplicationController
 
   def destroy
 
+    @reservation = Reservation.find(params[:id])
+
     @reservation.destroy
 
     if URI(request.referer).path == "/reservations/#{@reservation.id}"
@@ -117,14 +125,14 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def restrict_authuser
-
-    @reservation = Reservation.find(params[:id])
-
-    if current_user != @reservation.user or current_user != @reservation.event
-        redirect_to("/", :notice => "Nice try.")
-    end
-
-  end
+  # def restrict_authuser
+  #
+  #   @reservation = Reservation.find(params[:id])
+  #
+  #   if current_user != @reservation.user and current_user != @reservation.event.user
+  #       redirect_to("/", :notice => "Nice try.")
+  #   end
+  #
+  # end
 
 end

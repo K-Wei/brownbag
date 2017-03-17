@@ -10,6 +10,10 @@ class User < ApplicationRecord
     self.company = company.camelcase
   end
 
+  def full_name
+  "#{first_name} #{last_name}"
+  end
+
   # Direct associations
 
   has_many   :reservations,

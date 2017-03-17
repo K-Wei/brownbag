@@ -1,12 +1,14 @@
 <div class="page-header">
-  <h3>Restaurant #<%= @restaurant.id %></h3>
+  <h3><%= @restaurant.name %>
+    <a href="<%= @restaurant.yelp_url %>">
+      <img src="https://c1.staticflickr.com/6/5180/5540543936_423e37dae4_b.jpg" class="img-responsive" height="40" width="40">
+    </a>
+  </h3>
 </div>
 
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
-      <dt>Name</dt>
-      <dd><%= @restaurant.name %></dd>
 
       <dt>Location</dt>
       <dd>
@@ -15,8 +17,6 @@
         </div>
       </dd>
 
-      <dt>Yelp url</dt>
-      <dd><%= @restaurant.yelp_url %></dd>
 
       <dt>Price</dt>
       <dd><%= @restaurant.price %></dd>
@@ -24,8 +24,8 @@
       <dt>Categories</dt>
       <dd><%= @restaurant.categories %></dd>
 
-      <dt>Picture url</dt>
-      <dd><%= @restaurant.picture_url %></dd>
+      <!-- <dt>Picture url</dt>
+      <dd><%= @restaurant.picture_url %></dd> -->
 
     </dl>
 
@@ -33,12 +33,12 @@
       <a href="/restaurants" class="btn btn-primary">
         Back
       </a>
-      <a href="/restaurants/<%= @restaurant.id %>/edit" class="btn btn-warning">
+      <!-- <a href="/restaurants/<%= @restaurant.id %>/edit" class="btn btn-warning">
         Edit
       </a>
       <a href="/delete_restaurant/<%= @restaurant.id %>" class="btn btn-danger" rel="nofollow">
         Delete
-      </a>
+      </a> -->
     </div>
   </div>
 </div>
@@ -55,22 +55,21 @@
       <% @restaurant.events.each do |event| %>
         <li class="list-group-item">
           <a href="/events/<%= event.id %>">
-            <%= event.user_id %>
+            <%= event.event_date.strftime("%D") + ": " + event.title %>
           </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/events/<%= event.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/events/<%= event.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
           </div>
         </li>
       <% end %>
+    </ul>
+  </div>
 
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Create an event here
+      </li>
       <li class="list-group-item">
         <form action="/create_event" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
@@ -83,13 +82,7 @@
       <input type="hidden" name="restaurant_id" value="<%= @restaurant.id %>">
 
       <!-- Label and input for host -->
-      <div class="form-group">
-        <label for="host" class="control-label">
-          Host
-        </label>
-
-        <input type="text" id="host" name="host" placeholder="Host" class="form-control" value="">
-      </div>
+      <input type="hidden" name="host" value="<%= current_user.first_name + " " + current_user.last_name %>">
 
       <!-- Label and input for title -->
       <div class="form-group">
@@ -130,18 +123,10 @@
       <!-- Label and input for end_time -->
       <div class="form-group">
         <label for="end_time" class="control-label">
-          End tme
+          End time
         </label>
 
         <input type="text" id="end_time" name="end_time" placeholder="End tme" class="form-control" value="">
-      </div>
-
-      <!-- Label and input for available -->
-      <div class="checkbox">
-        <label for="available">
-          <input type="checkbox" id="available" name="available" value="1" <%= "checked" if @event.available %>>
-          Available
-        </label>
       </div>
 
       <!-- Label and input for capacity_limit -->

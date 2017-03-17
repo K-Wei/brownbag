@@ -19,14 +19,14 @@
       <% @recieved_pubrequests.each do |reservation| %>
       <tr>
         <td>
-            <a href="/users/<%= reservation.user.id %>">
-              <%= reservation.user.first_name + " " + reservation.user.last_name %>
-            </a>
+          <a href="/users/<%= reservation.user.id %>">
+            <%= reservation.user.first_name + " " + reservation.user.last_name %>
+          </a>
         </td>
         <td>
-            <a href="/events/<%= reservation.event.id %>">
-              <%= reservation.event.title + " (" + reservation.event.event_date +") " %>
-            </a>
+          <a href="/events/<%= reservation.event.id %>">
+            <%= reservation.event.title + " (" + reservation.event.event_date.to_s + ") " %>
+          </a>
         </td>
         <td><%= reservation.title %></td>
         <td> <%= reservation.user.first_name + " " + reservation.user.last_name %> requested to join your event </td>
@@ -41,7 +41,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h2> Invitations to Join Event(s) <h2>
+    <h2> Invitations to Join Event(s) </h2>
     <table class="table table-striped table-hover">
       <tr>
         <th>Invited By</th>
@@ -53,14 +53,14 @@
       <% @recieved_privinvites.each do |reservation| %>
       <tr>
         <td>
-            <a href="/users/<%= reservation.event.user.id %>">
-              <%= reservation.event.host %>
-            </a>
+          <a href="/users/<%= reservation.event.user.id %>">
+            <%= reservation.event.host %>
+          </a>
         </td>
         <td>
-            <a href="/events/<%= reservation.event.id %>">
-              <%= reservation.event.title + " (" + reservation.event.event_date +") " %>
-            </a>
+          <a href="/events/<%= reservation.event.id %>">
+            <%= reservation.event.title + " (" + reservation.event.event_date.to_s + ") " %>
+          </a>
         </td>
         <td><%= reservation.title %></td>
         <td> <%= reservation.event.host %> invited you to join their event </td>
@@ -75,12 +75,13 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h2> Pending Reservations <h2>
+    <h2> Pending Reservations </h2>
     <table class="table table-striped table-hover">
       <tr>
-        <th>Recipient<th>
+        <th>Sent to</th>
         <th>Host</th>
         <th>Event</th>
+        <th>Date</th>
         <th>Title</th>
         <th>Notes</th>
       </tr>
@@ -88,20 +89,21 @@
       <% @sent_pending.each do |reservation| %>
       <tr>
         <td>
-        <a href="/users/<%= reservation.user.id %>">
-          <%= reservation.user.first_name + " " + reservation.user.last_name %>
-        </a>
+          <a href="/users/<%= reservation.user.id %>">
+            <%= reservation.user.first_name + " " + reservation.user.last_name %>
+          </a>
         </td>
         <td>
-            <a href="/users/<%= reservation.event.user.id %>">
-              <%= reservation.event.host %>
-            </a>
+          <a href="/users/<%= reservation.event.user.id %>">
+            <%= reservation.event.host %>
+          </a>
         </td>
         <td>
-            <a href="/events/<%= reservation.event.id %>">
-              <%= reservation.event.title + " (" + reservation.event.event_date +") " %>
-            </a>
+          <a href="/events/<%= reservation.event.id %>">
+            <%= reservation.event.title + " (" + reservation.event.event_date.to_s + ") " %>
+          </a>
         </td>
+        <td><%= reservation.event.event_date.strftime("%D") %></td>
         <td><%= reservation.title %></td>
         <td>
           <% if reservation.host_approval == false and reservation.guest_approval == true and reservation.public_request == true %>
@@ -121,12 +123,11 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h2> My Confirmed Reservations <h2>
+    <h2> My Confirmed Reservations </h2>
     <table class="table table-striped table-hover">
       <tr>
         <th>Host</th>
         <th>Event</th>
-        <th>Restaurant</th>
         <th>Date</th>
         <th>Title</th>
         <th>Note</th>
@@ -135,23 +136,18 @@
       <% @attendances.each do |reservation| %>
       <tr>
         <td>
-            <a href="/users/<%= reservation.user.id %>">
-              <%= reservation.event.host %>
-            </a>
+          <a href="/users/<%= reservation.user.id %>">
+            <%= reservation.event.host %>
+          </a>
         </td>
         <td>
-            <a href="/events/<%= reservation.event.id %>">
-              <%= reservation.event.title %>
-            </a>
+          <a href="/events/<%= reservation.event.id %>">
+            <%= reservation.event.title %>
+          </a>
         </td>
-        <td>
-            <a href="/restaurants/<%= reservation.restaurant.id %>">
-              <%= reservation.restaurant.name %>
-            </a>
-        </td>
-        <td><%= reservation.event.event_date %></td>
+        <td><%= reservation.event.event_date.strftime("%D") %></td>
         <td><%= reservation.title %></td>
-        <td> You invited confirmed this reservation at <%= reservation.updated_at %>.</td>
+        <td> You confirmed this reservation at <%= reservation.updated_at %>.</td>
         <td>
           <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">Details</a>
         </td>
