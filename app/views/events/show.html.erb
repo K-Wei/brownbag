@@ -11,9 +11,9 @@
 
       <dt>Restaurant</dt>
       <dd>
-          <a href="/restaurants/<%= @event.restaurant_id %>">
-            <%= @event.restaurant.name %>
-          </a>
+        <a href="/restaurants/<%= @event.restaurant_id %>">
+          <%= @event.restaurant.name %>
+        </a>
       </dd>
 
       <dt>Event date</dt>
@@ -41,12 +41,12 @@
         Back
       </a>
       <% if current_user == @event.user %>
-        <a href="/events/<%= @event.id %>/edit" class="btn btn-warning">
-          Edit
-        </a>
-        <a href="/delete_event/<%= @event.id %>" class="btn btn-danger" rel="nofollow">
-          Delete
-        </a>
+      <a href="/events/<%= @event.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_event/<%= @event.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
       <% end %>
     </div>
   </div>
@@ -63,55 +63,55 @@
       </li>
 
       <% @event.comments.each do |comment| %>
-        <li class="list-group-item">
-          <a href="/comments/<%= comment.id %>">
-            <%= comment.body %>
+      <li class="list-group-item">
+        <a href="/comments/<%= comment.id %>">
+          <%= comment.body %>
+        </a>
+
+        <% if current_user == comment.user %>
+        <div class="btn-group btn-group-xs pull-right">
+          <a href="/comments/<%= comment.id %>/edit" class="btn btn-warning">
+            <i class="fa fa-edit"></i>
           </a>
+          <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </div>
+        <% elsif current_user == @event.user %>
+        <div class="btn-group btn-group-xs pull-right">
+          <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </div>
+        <% end %>
 
-          <% if current_user == comment.user %>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/comments/<%= comment.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-          <% elsif current_user == @event.user %>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/delete_comment/<%= comment.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-          <% end %>
-
-        </li>
+      </li>
       <% end %>
 
       <li class="list-group-item">
         <form action="/create_comment" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      <!-- Label and input for user_id -->
-      <input type="hidden" name="user_id" value="<%= current_user.id %>">
+          <!-- Label and input for user_id -->
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
 
-      <!-- Label and input for event_id -->
-      <input type="hidden" name="event_id" value="<%= @event.id %>">
+          <!-- Label and input for event_id -->
+          <input type="hidden" name="event_id" value="<%= @event.id %>">
 
-      <!-- Label and input for body -->
-      <div class="form-group">
-        <label for="body" class="control-label">
-          Body
-        </label>
+          <!-- Label and input for body -->
+          <div class="form-group">
+            <label for="body" class="control-label">
+              Body
+            </label>
 
-        <textarea id="body" name="body" placeholder="Body" class="form-control" rows="3"></textarea>
-      </div>
+            <textarea id="body" name="body" placeholder="Body" class="form-control" rows="3"></textarea>
+          </div>
 
-      <button class="btn btn-block btn-success">
-        Create Comment
-      </button>
-    </form>
+          <button class="btn btn-block btn-success">
+            Create Comment
+          </button>
+        </form>
       </li>
     </ul>
   </div>
@@ -123,107 +123,127 @@
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
-        Reservations
+        Reservations (<%= @event.reservations.where(:declined == true).count %> / <%= @event.capacity_limit %>)
       </li>
 
-      <% @event.reservations.each do |reservation| %>
+      <% @event.reservations.where(:declined == true).each do |reservation| %>
+      <% if reservation.user == @event.user %>
+      <li class="list-group-item">
+        <a href="/reservations/<%= reservation.id %>">
+          <%= reservation.user.first_name + " " + reservation.user.last_name + " (host)" %>
+        </a>
+        <% else %>
         <li class="list-group-item">
           <a href="/reservations/<%= reservation.id %>">
-            <%= reservation.user_id %>
+            <%= reservation.user.first_name + " " + reservation.user.last_name %>
           </a>
+          <% end %>
+          <% if reservation.user == current_user or current_user == @event.user %>
           <div class="btn-group btn-group-xs pull-right">
-            <a href="/reservations/<%= reservation.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/reservations/<%= reservation.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_reservation/<%= reservation.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
+            <a href="/events/<%= event.id %>" class="btn btn-primary">Details</a>
           </div>
+          <% end %>
         </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_reservation" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
-
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for event_id -->
-      <input type="hidden" name="event_id" value="<%= @event.id %>">
-
-      <!-- Label and input for confirmed -->
-      <div class="checkbox">
-        <label for="confirmed">
-          <input type="checkbox" id="confirmed" name="confirmed" value="1" <%= "checked" if @reservation.confirmed %>>
-          Confirmed reservation
-        </label>
-      </div>
-
-      <!-- Label and input for host_approval -->
-      <div class="checkbox">
-        <label for="host_approval">
-          <input type="checkbox" id="host_approval" name="host_approval" value="1" <%= "checked" if @reservation.host_approval %>>
-          Host approval
-        </label>
-      </div>
-
-      <!-- Label and input for guest_approval -->
-      <div class="checkbox">
-        <label for="guest_approval">
-          <input type="checkbox" id="guest_approval" name="guest_approval" value="1" <%= "checked" if @reservation.guest_approval %>>
-          Guest approval
-        </label>
-      </div>
-
-      <!-- Label and input for public_request -->
-      <div class="checkbox">
-        <label for="public_request">
-          <input type="checkbox" id="public_request" name="public_request" value="1" <%= "checked" if @reservation.public_request %>>
-          Public request
-        </label>
-      </div>
-
-      <!-- Label and input for title -->
-      <div class="form-group">
-        <label for="title" class="control-label">
-          Title
-        </label>
-
-        <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="">
-      </div>
-
-      <!-- Label and input for description -->
-      <div class="form-group">
-        <label for="description" class="control-label">
-          Description
-        </label>
-
-        <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"></textarea>
-      </div>
-
-      <button class="btn btn-block btn-success">
-        Create Reservation
-      </button>
-    </form>
+        <% end %>
       </li>
     </ul>
   </div>
 </div>
 
-<!-- A Event has many attendees -->
-
+<% if @event.reservations.where(:declined == false).count < @event.capacity_limit %>
 <div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Create a Reservation
+      </li>
+
+      <li class="list-group-item">
+        <form action="/create_reservation" method="post">
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <!-- Label and input for user_id -->
+          <div class="form-group">
+
+            <% if current_user == @event.user %>
+            <label for="user_id" class="control-label">
+              Reservation for:
+            </label>
+            <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :email), :class => "form-control") %>
+            <% else %>
+            <label for="user_id" class="control-label">
+              Reservation for: <%= current_user.first_name + " " + current_user.last_name %>
+            </label>
+            <% end %>
+
+          </div>
+
+          <!-- Label and input for event_id -->
+          <input type="hidden" name="event_id" value="<%= @event.id %>">
+
+          <!-- Label and input for confirmed -->
+          <input type="hidden" name="confirmed" value = false >
+
+          <!-- Label and input for host_approval -->
+          <% if current_user == @event.user %>
+          <input type="hidden" name="host_approval" value = true >
+          <% else %>
+          <input type="hidden" name="host_approval" value = false >
+          <% end %>
+
+          <!-- Label and input for guest_approval -->
+          <% if current_user == @event.user %>
+          <input type="hidden" name="guest_approval" value = false >
+          <% else %>
+          <input type="hidden" name="guest_approval" value = true >
+          <% end %>
+
+          <!-- Label and input for public_request -->
+          <% if current_user == @event.user %>
+          <input type="hidden" name="public_request" value = false >
+          <% else %>
+          <input type="hidden" name="public_request" value = true >
+          <% end %>
+
+          <!-- Label and input for title -->
+          <div class="form-group">
+            <label for="title" class="control-label">
+              Title
+            </label>
+
+            <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="">
+          </div>
+
+          <!-- Label and input for description -->
+          <div class="form-group">
+            <label for="description" class="control-label">
+              Description
+            </label>
+
+            <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"></textarea>
+          </div>
+
+          <button class="btn btn-block btn-success">
+            Create Reservation
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</div>
+<% else %>
+<div class="row">
+  <div class="col-md-12">
+    <h2> Event is currently full, check back later or message the host for more details <h2>
+  </div>
+</div>
+<% end %>
+
+
+<!-- A Event has many attendees -->
+<!-- not necessary, but keeping just in case -->
+<!-- <div class="row">
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
@@ -231,24 +251,24 @@
       </li>
 
       <% @event.attendees.each do |user| %>
-        <li class="list-group-item">
-          <a href="/users/<%= user.id %>">
-            <%= user.email %>
+      <li class="list-group-item">
+        <a href="/users/<%= user.id %>">
+          <%= user.email %>
+        </a>
+        <div class="btn-group btn-group-xs pull-right">
+          <a href="/users/<%= user.id %>" class="btn btn-primary">
+            <i class="fa fa-search-plus"></i>
           </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/users/<%= user.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/users/<%= user.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_user/<%= user.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
+          <a href="/users/<%= user.id %>/edit" class="btn btn-warning">
+            <i class="fa fa-edit"></i>
+          </a>
+          <a href="/delete_user/<%= user.id %>" class="btn btn-danger" rel="nofollow">
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </div>
+      </li>
       <% end %>
     </ul>
   </div>
 </div>
-<% end %>
+<% end %> -->
